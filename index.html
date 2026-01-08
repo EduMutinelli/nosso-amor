@@ -1,0 +1,2943 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Amor Eterno ❤️</title>
+    
+    <!-- Fontes e ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- CSS COMPLETO -->
+    <style>
+    /* ============================================
+       RESET E CONFIGURAÇÕES GERAIS
+       ============================================ */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary-color: #ff6b8b;
+        --secondary-color: #ff8e9e;
+        --accent-color: #ffd166;
+        --dark-color: #6a0572;
+        --light-color: #fff0f3;
+        --text-color: #333;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        background: linear-gradient(135deg, #fff0f3 0%, #ffe6ea 100%);
+        min-height: 100vh;
+        overflow-x: hidden;
+        line-height: 1.6;
+    }
+
+    /* ============================================
+       ANIMAÇÕES GLOBAIS
+       ============================================ */
+    @keyframes fall {
+        0% {
+            transform: translateY(-100px) rotate(0deg);
+            opacity: 0;
+        }
+        10% { opacity: 0.3; }
+        90% { opacity: 0.3; }
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 107, 139, 0.4);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 10px rgba(255, 107, 139, 0);
+        }
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    @keyframes modalAppear {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    /* ============================================
+       PÉTALAS DE FLORES
+       ============================================ */
+    .petals {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .petals::before {
+        content: "🌸";
+        position: absolute;
+        font-size: 24px;
+        animation: fall 15s linear infinite;
+        opacity: 0.3;
+    }
+
+    .petals::after {
+        content: "💮";
+        position: absolute;
+        font-size: 20px;
+        animation: fall 12s linear infinite 5s;
+        opacity: 0.3;
+    }
+
+    /* ============================================
+       NAVEGAÇÃO
+       ============================================ */
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        box-shadow: var(--shadow);
+        padding: 1rem 0;
+    }
+
+    .nav-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-family: 'Dancing Script', cursive;
+        font-size: 2rem;
+        color: var(--primary-color);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 500;
+        transition: var(--transition);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+    }
+
+    .nav-links a:hover {
+        color: var(--primary-color);
+        background: var(--light-color);
+    }
+
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        cursor: pointer;
+    }
+
+    /* ============================================
+       SEÇÃO HERO (INÍCIO)
+       ============================================ */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6rem 2rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at center, transparent 0%, rgba(255, 255, 255, 0.7) 100%);
+        z-index: -1;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        z-index: 1;
+    }
+
+    .title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: var(--dark-color);
+    }
+
+    .highlight {
+        color: var(--primary-color);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .love-quote {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 2rem auto;
+        max-width: 600px;
+        box-shadow: var(--shadow);
+        position: relative;
+    }
+
+    .love-quote i:first-child {
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        color: var(--primary-color);
+        font-size: 1.5rem;
+    }
+
+    .love-quote i:last-child {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+        color: var(--primary-color);
+        font-size: 1.5rem;
+    }
+
+    .cta-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 15px rgba(255, 107, 139, 0.3);
+    }
+
+    .cta-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 107, 139, 0.4);
+    }
+
+    /* ============================================
+       SEÇÃO CONTADOR DE TEMPO
+       ============================================ */
+    .counter-section {
+        padding: 5rem 2rem;
+        background: white;
+        margin: 2rem auto;
+        border-radius: 30px;
+        max-width: 1200px;
+        box-shadow: var(--shadow);
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+        font-family: 'Dancing Script', cursive;
+        font-size: 2.5rem;
+        color: var(--dark-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .section-header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .anniversary-date {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--light-color);
+        border-radius: 15px;
+        width: fit-content;
+        margin: 0 auto 3rem;
+    }
+
+    .time-counters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .counter-card {
+        background: linear-gradient(135deg, #fff, #f9f9f9);
+        padding: 1.5rem;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+    }
+
+    .counter-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .counter-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .counter-label {
+        color: #666;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* ===== NOVO ESTILO PARA CONQUISTAS ===== */
+    .milestones {
+        background: linear-gradient(135deg, var(--light-color), #fff);
+        padding: 2.5rem;
+        border-radius: 20px;
+        margin-top: 3rem;
+        border: 2px solid rgba(255, 107, 139, 0.1);
+    }
+
+    .milestones h3 {
+        text-align: center;
+        color: var(--dark-color);
+        margin-bottom: 2rem;
+        font-family: 'Dancing Script', cursive;
+        font-size: 2.2rem;
+    }
+
+    .milestone-list {
+        display: grid;
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .milestone {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+    }
+
+    .milestone:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .milestone-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .milestone-info {
+        flex: 1;
+    }
+
+    .milestone-info h4 {
+        color: var(--dark-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+    }
+
+    .milestone-desc {
+        color: #666;
+        margin-bottom: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .highlight-number {
+        font-weight: bold;
+        color: var(--primary-color);
+        font-size: 1.2rem;
+    }
+
+    .milestone-progress-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .milestone-progress-bar {
+        flex: 1;
+        height: 10px;
+        background: #e0e0e0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .milestone-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        border-radius: 5px;
+        transition: width 1s ease-in-out;
+    }
+
+    .milestone-percent {
+        font-weight: bold;
+        color: var(--dark-color);
+        min-width: 45px;
+        font-size: 0.9rem;
+    }
+
+    /* ============================================
+       GALERIA DE FOTOS
+       ============================================ */
+    .gallery-section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .gallery-controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1.5rem;
+        border: 2px solid var(--primary-color);
+        background: transparent;
+        color: var(--primary-color);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .photo-item {
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: pointer;
+        aspect-ratio: 1;
+        transition: var(--transition);
+    }
+
+    .photo-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .photo-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .photo-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        padding: 1rem;
+        color: white;
+        transform: translateY(100%);
+        transition: var(--transition);
+    }
+
+    .photo-item:hover .photo-overlay {
+        transform: translateY(0);
+    }
+
+    /* ============================================
+       LINHA DO TEMPO
+       ============================================ */
+    .timeline-section {
+        padding: 5rem 2rem;
+        background: white;
+        margin: 2rem auto;
+        border-radius: 30px;
+        max-width: 1200px;
+        box-shadow: var(--shadow);
+    }
+
+    .timeline-container {
+        position: relative;
+        padding: 2rem 0;
+    }
+
+    .timeline-container::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        transform: translateX(-50%);
+    }
+
+    .timeline-event {
+        position: relative;
+        margin: 2rem 0;
+        width: 45%;
+    }
+
+    .timeline-event:nth-child(odd) {
+        left: 0;
+    }
+
+    .timeline-event:nth-child(even) {
+        left: 55%;
+    }
+
+    .timeline-content {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        position: relative;
+    }
+
+    .timeline-content::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        width: 20px;
+        height: 20px;
+        background: var(--primary-color);
+        border-radius: 50%;
+    }
+
+    .timeline-event:nth-child(odd) .timeline-content::before {
+        right: -10px;
+        transform: translateX(100%);
+    }
+
+    .timeline-event:nth-child(even) .timeline-content::before {
+        left: -10px;
+        transform: translateX(-100%);
+    }
+
+    .event-date {
+        color: var(--primary-color);
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* ============================================
+       MAPA DOS LUGARES
+       ============================================ */
+    .map-section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .map-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-top: 3rem;
+    }
+
+    .places-list {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .place-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+    }
+
+    .place-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .place-card h3 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .place-description {
+        color: #666;
+        line-height: 1.6;
+        min-height: 60px;
+        margin-bottom: 1rem;
+    }
+
+    .edit-btn {
+        background: var(--light-color);
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 0.9rem;
+    }
+
+    .edit-btn:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .map-visual {
+        background: linear-gradient(135deg, #e6f7ff, #f0f9ff);
+        border-radius: 20px;
+        padding: 2rem;
+        position: relative;
+        min-height: 400px;
+    }
+
+    .simple-map {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: #a8d8ff;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .map-point {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        animation: pulse 2s infinite;
+    }
+
+    .map-point:hover {
+        transform: scale(1.2);
+    }
+
+    /* ============================================
+       MENSAGENS SECRETAS
+       ============================================ */
+    .messages-section {
+        padding: 5rem 2rem;
+        background: white;
+        margin: 2rem auto;
+        border-radius: 30px;
+        max-width: 1200px;
+        box-shadow: var(--shadow);
+    }
+
+    .password-container {
+        display: flex;
+        gap: 1rem;
+        max-width: 500px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: var(--light-color);
+        border-radius: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #messagePassword {
+        flex: 1;
+        min-width: 250px;
+        padding: 1rem;
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+        transition: var(--transition);
+    }
+
+    #messagePassword:focus {
+        border-color: var(--dark-color);
+        box-shadow: 0 0 0 3px rgba(106, 5, 114, 0.1);
+    }
+
+    .unlock-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .unlock-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 139, 0.3);
+    }
+
+    .messages-container {
+        margin-top: 3rem;
+        display: grid;
+        gap: 2rem;
+    }
+
+    .message-card {
+        background: var(--light-color);
+        padding: 2rem;
+        border-radius: 15px;
+        position: relative;
+        transition: var(--transition);
+    }
+
+    .message-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .message-card h3 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .message-card p {
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+        min-height: 100px;
+    }
+
+    .message-date {
+        position: absolute;
+        bottom: 1rem;
+        right: 1.5rem;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+        font-style: italic;
+    }
+
+    .add-message {
+        background: white;
+        border: 2px dashed var(--primary-color);
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+    }
+
+    #newMessage {
+        width: 100%;
+        min-height: 150px;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin: 1rem 0;
+        font-family: inherit;
+        font-size: 1rem;
+        resize: vertical;
+    }
+
+    .save-btn {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 1rem;
+    }
+
+    .save-btn:hover {
+        background: var(--dark-color);
+    }
+
+    /* ============================================
+       ÁRVORE DOS DESEJOS
+       ============================================ */
+    .future-section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .wish-tree {
+        position: relative;
+        height: 400px;
+        margin: 3rem auto;
+        max-width: 800px;
+    }
+
+    .tree-trunk {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 200px;
+        background: linear-gradient(to right, #8B4513, #A0522D);
+        border-radius: 10px;
+    }
+
+    .leaves-container {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 200px;
+    }
+
+    .leaf {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        border-radius: 50% 0 50% 50%;
+        transform: rotate(45deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        animation: sway 3s infinite ease-in-out;
+    }
+
+    .leaf:hover {
+        transform: rotate(45deg) scale(1.2);
+        z-index: 10;
+    }
+
+    .add-wish {
+        display: flex;
+        gap: 1rem;
+        max-width: 600px;
+        margin: 3rem auto;
+    }
+
+    #newWish {
+        flex: 1;
+        padding: 1rem;
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    .wish-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .wish-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 139, 0.3);
+    }
+
+    .wishes-list {
+        display: grid;
+        gap: 1rem;
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+
+    .wish-item {
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: var(--transition);
+    }
+
+    .wish-item:hover {
+        transform: translateX(5px);
+    }
+
+    .wish-text {
+        flex: 1;
+        color: #666;
+    }
+
+    .delete-wish {
+        background: none;
+        border: none;
+        color: #ff6b6b;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: var(--transition);
+    }
+
+    .delete-wish:hover {
+        transform: scale(1.2);
+    }
+
+    /* ============================================
+       QUIZ DO CASAL
+       ============================================ */
+    .quiz-section {
+        padding: 5rem 2rem;
+        background: white;
+        margin: 2rem auto;
+        border-radius: 30px;
+        max-width: 1200px;
+        box-shadow: var(--shadow);
+    }
+
+    .quiz-container {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+
+    .quiz-question {
+        background: var(--light-color);
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+        display: none;
+    }
+
+    .quiz-question.active {
+        display: block;
+    }
+
+    .question-text {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: var(--dark-color);
+    }
+
+    .quiz-options {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .quiz-option {
+        padding: 1rem;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        text-align: left;
+        background: white;
+        font-size: 1rem;
+    }
+
+    .quiz-option:hover {
+        border-color: var(--primary-color);
+        background: var(--light-color);
+    }
+
+    .quiz-option.selected {
+        border-color: var(--primary-color);
+        background: var(--light-color);
+        color: var(--primary-color);
+    }
+
+    .quiz-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 1.1rem;
+        display: block;
+        margin: 2rem auto;
+    }
+
+    .quiz-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 139, 0.3);
+    }
+
+    .quiz-result {
+        text-align: center;
+        padding: 2rem;
+        background: var(--light-color);
+        border-radius: 15px;
+        margin-top: 2rem;
+    }
+
+    .quiz-result h3 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    #quizScore {
+        color: var(--primary-color);
+        font-size: 2rem;
+    }
+
+    #quizMessage {
+        color: #666;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    /* ============================================
+       PLAYER DE MÚSICA SIMPLIFICADO
+       ============================================ */
+    .music-btn-simple {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        color: white;
+        font-size: 28px;
+        cursor: pointer;
+        box-shadow: 0 5px 20px rgba(255, 107, 139, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        transition: var(--transition);
+    }
+
+    .music-btn-simple:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(255, 107, 139, 0.6);
+    }
+
+    .music-pulse-simple {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(255, 107, 139, 0.3);
+        animation: pulse 2s infinite;
+        z-index: -1;
+    }
+
+    .music-modal-simple {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 95%;
+        max-width: 480px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        z-index: 10002;
+        overflow: hidden;
+        display: none;
+    }
+
+    .music-modal-simple.active {
+        display: block;
+        animation: modalAppear 0.4s ease;
+    }
+
+    .music-modal-content {
+        padding: 0;
+    }
+
+    .music-modal-header-simple {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .music-modal-header-simple h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .music-close-simple {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        font-size: 28px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+
+    .music-close-simple:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+    }
+
+    .youtube-direct-container {
+        width: 100%;
+        height: 250px;
+        background: #000;
+    }
+
+    .video-wrapper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .video-wrapper iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .simple-controls {
+        padding: 20px;
+        background: var(--light-color);
+    }
+
+    .control-row {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .simple-btn {
+        padding: 12px 20px;
+        background: white;
+        color: var(--text-color);
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition);
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    .simple-btn:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+
+    .youtube-red {
+        background: #ff0000;
+        color: white;
+        border-color: #ff0000;
+    }
+
+    .youtube-red:hover {
+        background: #cc0000;
+        color: white;
+        border-color: #cc0000;
+    }
+
+    .simple-info {
+        padding: 15px 20px;
+        background: #fff9fa;
+        border-top: 1px solid #ffe6ea;
+    }
+
+    .simple-info p {
+        color: #666;
+        margin: 8px 0;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .music-overlay-simple {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 10001;
+        display: none;
+    }
+
+    .music-overlay-simple.active {
+        display: block;
+    }
+
+    /* ============================================
+       MODAIS (GALERIA E SURPRESA)
+       ============================================ */
+    .fullscreen-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 2rem;
+    }
+
+    .fullscreen-modal.active {
+        display: flex;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 2001;
+    }
+
+    #modalImage {
+        max-width: 80%;
+        max-height: 80%;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+
+    .photo-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 2rem;
+        transform: translateY(100%);
+        transition: var(--transition);
+    }
+
+    .fullscreen-modal.active .photo-info {
+        transform: translateY(0);
+    }
+
+    .surprise-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 3000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .surprise-modal:not(.hidden) {
+        display: flex;
+    }
+
+    .surprise-modal .modal-content {
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        animation: modalAppear 0.3s ease;
+    }
+
+    .close-surprise {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+
+    .close-surprise:hover {
+        background: var(--light-color);
+        transform: rotate(90deg);
+    }
+
+    /* ============================================
+       RODAPÉ
+       ============================================ */
+    .footer {
+        background: linear-gradient(135deg, var(--dark-color), #8a2be2);
+        color: white;
+        padding: 3rem 2rem;
+        text-align: center;
+        margin-top: 4rem;
+    }
+
+    .footer-heart {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: heartbeat 1.5s infinite;
+    }
+
+    .footer p {
+        margin: 0.5rem 0;
+        opacity: 0.9;
+    }
+
+    .footer-date {
+        font-style: italic;
+        margin: 1rem 0;
+    }
+
+    .surprise-btn {
+        background: white;
+        color: var(--dark-color);
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 1rem;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .surprise-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    /* ============================================
+       CLASSES UTILITÁRIAS
+       ============================================ */
+    .hidden {
+        display: none !important;
+    }
+
+    /* Adicione isso no final do seu CSS, antes das media queries */
+.youtube-fallback {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    background: #1a1a1a;
+    color: white;
+}
+
+.youtube-fallback.active {
+    display: block;
+}
+
+.direct-youtube-btn {
+    background: #ff0000;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.direct-youtube-btn:hover {
+    background: #cc0000;
+    transform: translateY(-2px);
+}
+
+    /* ============================================
+       RESPONSIVIDADE
+       ============================================ */
+    @media (max-width: 768px) {
+        /* Navegação */
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-links.active {
+            display: flex;
+        }
+        
+        .menu-toggle {
+            display: block;
+        }
+        
+        /* Hero */
+        .title {
+            font-size: 2.5rem;
+        }
+        
+        /* Contador */
+        .time-counters {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        /* Linha do Tempo */
+        .timeline-container::before {
+            left: 30px;
+        }
+        
+        .timeline-event {
+            width: calc(100% - 60px);
+            left: 60px !important;
+        }
+        
+        .timeline-content::before {
+            left: -40px !important;
+            transform: translateX(-100%) !important;
+        }
+        
+        /* Mapa */
+        .map-container {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Player de Música */
+        .music-modal-simple {
+            width: 95%;
+            max-width: 95%;
+        }
+        
+        .youtube-direct-container {
+            height: 220px;
+        }
+        
+        .control-row {
+            flex-direction: column;
+        }
+        
+        .simple-btn {
+            min-width: 100%;
+        }
+        
+        /* Modais */
+        .surprise-modal .modal-content {
+            padding: 2rem;
+            margin: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .title {
+            font-size: 2rem;
+        }
+        
+        .counter-number {
+            font-size: 2rem;
+        }
+        
+        .time-counters {
+            grid-template-columns: 1fr;
+        }
+        
+        .photo-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .password-container {
+            flex-direction: column;
+        }
+        
+        #messagePassword {
+            min-width: 100%;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Pétalas de flores caindo -->
+    <div class="petals"></div>
+
+    <!-- Navegação -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="logo">Nossa História</h1>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#counter">Nosso Tempo</a></li>
+                <li><a href="#gallery">Memórias</a></li>
+                <li><a href="#timeline">Linha do Tempo</a></li>
+                <li><a href="#messages">Mensagens</a></li>
+                <li><a href="#future">Futuro</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== PLAYER DE MÚSICA ULTRA SIMPLES ===== -->
+    <div class="music-simple-wrapper">
+        <!-- Botão flutuante -->
+        <button id="musicButton" class="music-btn-simple">
+            <i class="fas fa-music"></i>
+            <span class="music-pulse-simple"></span>
+        </button>
+        
+        <!-- Modal da Música -->
+        <div id="musicModal" class="music-modal-simple">
+            <div class="music-modal-content">
+                <!-- Cabeçalho -->
+                <div class="music-modal-header-simple">
+                    <h3><i class="fas fa-heart"></i> Nossa Música</h3>
+                    <button class="music-close-simple" id="closeMusicBtn">&times;</button>
+                </div>
+                
+                <!-- Conteúdo SIMPLES -->
+                <div style="padding: 2rem; text-align: center;">
+                    <div style="font-size: 4rem; color: #ff6b8b; margin-bottom: 1rem;">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h4 style="color: #333; margin-bottom: 0.5rem;">Uma música especial para nós</h4>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Clique no botão abaixo para ouvir no YouTube</p>
+                    
+                    <button id="openYoutubeBtn" class="youtube-red" style="
+                        background: #ff0000;
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 25px;
+                        font-size: 16px;
+                        cursor: pointer;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 10px;
+                        transition: all 0.3s ease;
+                    ">
+                        <i class="fab fa-youtube"></i> Ouvir no YouTube
+                    </button>
+                </div>
+                
+                <!-- Informações -->
+                <div class="simple-info">
+                    <p><i class="fas fa-heart"></i> Uma música que me lembra você</p>
+                    <p><i class="fas fa-volume-up"></i> Ajuste o volume no YouTube</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay -->
+        <div id="musicOverlay" class="music-overlay-simple"></div>
+    </div>
+
+    <!-- Seção Principal -->
+    <main>
+        <!-- Home -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="title">Para <span class="highlight" id="girlfriendName">Minha Namorada</span></h1>
+                <p class="subtitle">Cada momento contigo é uma página do nosso livro de amor</p>
+                <div class="love-quote">
+                    <i class="fas fa-quote-left"></i>
+                    <p id="dailyMessage">Carregando mensagem do dia...</p>
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                <button class="cta-btn" id="loveNoteBtn">
+                    <i class="fas fa-heart"></i> Clique para uma surpresa
+                </button>
+            </div>
+            <div class="hearts-animation"></div>
+        </section>
+
+        <!-- Contador de Tempo -->
+        <section id="counter" class="counter-section">
+            <div class="section-header">
+                <h2><i class="fas fa-heartbeat"></i> Nosso Tempo Juntos</h2>
+                <p>Desde o dia em que nossas almas se encontraram</p>
+            </div>
+            
+            <div class="anniversary-date">
+                <h3>Desde <span id="startDate">30 de Agosto de 2025</span></h3>
+            </div>
+            
+            <div class="time-counters">
+                <div class="counter-card">
+                    <div class="counter-number" id="years">0</div>
+                    <div class="counter-label">Anos</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="months">0</div>
+                    <div class="counter-label">Meses</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="days">0</div>
+                    <div class="counter-label">Dias</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="hours">0</div>
+                    <div class="counter-label">Horas</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="minutes">0</div>
+                    <div class="counter-label">Minutos</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" id="seconds">0</div>
+                    <div class="counter-label">Segundos</div>
+                </div>
+            </div>
+            
+            <div class="milestones">
+                <h3><i class="fas fa-trophy"></i> Nossas Próximas Conquistas</h3>
+                
+                <div class="milestone-list">
+                    <!-- Conquista 1: Próximo marco de 100 dias -->
+                    <div class="milestone">
+                        <div class="milestone-icon">
+                            <i class="fas fa-calendar-heart"></i>
+                        </div>
+                        <div class="milestone-info">
+                            <h4>Próximo Marco de 100 Dias</h4>
+                            <p class="milestone-desc">Faltam apenas <span class="highlight-number" id="next100">69</span> dias!</p>
+                            <div class="milestone-progress-container">
+                                <div class="milestone-progress-bar">
+                                    <div class="milestone-progress-fill" id="progress100" style="width: 31%"></div>
+                                </div>
+                                <span class="milestone-percent" id="percent100">31%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Conquista 2: Próximo aniversário -->
+                    <div class="milestone">
+                        <div class="milestone-icon">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <div class="milestone-info">
+                            <h4>Nosso Próximo Aniversário</h4>
+                            <p class="milestone-desc">Faltam <span class="highlight-number" id="nextYear">234</span> dias para 1 ano!</p>
+                            <div class="milestone-progress-container">
+                                <div class="milestone-progress-bar">
+                                    <div class="milestone-progress-fill" id="progressYear" style="width: 36%"></div>
+                                </div>
+                                <span class="milestone-percent" id="percentYear">36%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- Galeria de Fotos -->
+        <section id="gallery" class="gallery-section">
+            <div class="section-header">
+                <h2><i class="fas fa-images"></i> Nossas Memórias</h2>
+                <p>Momentos que guardo no coração</p>
+            </div>
+            
+            <div class="gallery-controls">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="first">Primeiros Meses</button>
+                <button class="filter-btn" data-filter="special">Datas Especiais</button>
+                <button class="filter-btn" data-filter="recent">Recentes</button>
+            </div>
+            
+            <div class="photo-grid" id="photoGrid">
+                <!-- Fotos serão carregadas via JavaScript -->
+            </div>
+            
+            <div class="fullscreen-modal" id="photoModal">
+                <button class="close-modal">&times;</button>
+                <img id="modalImage" src="" alt="Foto ampliada">
+                <div class="photo-info">
+                    <h3 id="photoTitle">Título da Foto</h3>
+                    <p id="photoDate">Data</p>
+                    <p id="photoDescription">Descrição da foto</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Linha do Tempo -->
+        <section id="timeline" class="timeline-section">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Nossa Linha do Tempo</h2>
+                <p>Os capítulos da nossa história de amor</p>
+            </div>
+            
+            <div class="timeline-container">
+                <!-- Eventos serão carregados via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Mapa dos Lugares -->
+        <section id="map" class="map-section">
+            <div class="section-header">
+                <h2><i class="fas fa-map-marked-alt"></i> Nossos Lugares Especiais</h2>
+                <p>Onde nossos corações se encontraram</p>
+            </div>
+            
+            <div class="map-container">
+                <div class="places-list">
+                    <div class="place-card" data-place="first-meet">
+                        <h3><i class="fas fa-heart"></i> Onde nos conhecemos</h3>
+                        <p class="place-description" id="firstMeetDesc">Quem diria que a gente iria se conhecer por uma rede social né? Ainda bem que sua irmã fez você criar uma conta naquele app lá kkkk.</p>
+                        <button class="edit-btn" data-edit="firstMeetDesc">Editar</button>
+                    </div>
+                    <div class="place-card" data-place="first-date">
+                        <h3><i class="fas fa-star"></i> Primeiro Encontro</h3>
+                        <p class="place-description" id="firstDateDesc">Nosso primeiro encontro foi num lugar que não é de primeiro encontro mas é um lugar legal(até porquê é um lugar onde a gente vai pra transar né? kk) mas independente disso, a gente vivenciou um momento muito bom e inesquecível. Desde então, não desgrudamos mais S2.</p>
+                        <button class="edit-btn" data-edit="firstDateDesc">Editar</button>
+                    </div>
+                    <div class="place-card" data-place="favorite">
+                        <h3><i class="fas fa-home"></i> Nosso Lugar Favorito</h3>
+                        <p class="place-description" id="favoritePlaceDesc">Não temos um lugar favorito né? ou temos? kkk. Eu acho que para mim, o meu lugar favorito é quando estou com você.</p>
+                        <button class="edit-btn" data-edit="favoritePlaceDesc">Editar</button>
+                    </div>
+                    <div class="place-card" data-place="future">
+                        <h3><i class="fas fa-plane"></i> Sonho de Viagem</h3>
+                        <p class="place-description" id="dreamTravelDesc">Não tenho um lugar em específico, mas eu quero muito conhecer lugares novos com você. Então meu sonho de viagem é conhecer o mundo com você.</p>
+                        <button class="edit-btn" data-edit="dreamTravelDesc">Editar</button>
+                    </div>
+                </div>
+                <div class="map-visual">
+                    <div class="simple-map">
+                        <div class="map-point" data-place="first-meet" style="top: 30%; left: 40%;">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="map-point" data-place="first-date" style="top: 50%; left: 60%;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="map-point" data-place="favorite" style="top: 70%; left: 30%;">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="map-point" data-place="future" style="top: 20%; left: 80%;">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mensagens Secretas -->
+        <section id="messages" class="messages-section">
+            <div class="section-header">
+                <h2><i class="fas fa-envelope"></i> Mensagens do Coração</h2>
+                <p>Palavras que só você pode ver</p>
+            </div>
+            
+            <div class="password-container">
+                <input type="password" id="messagePassword" placeholder="Digite nossa senha especial">
+                <button id="unlockMessages" class="unlock-btn">
+                    <i class="fas fa-lock-open"></i> Desbloquear Mensagens
+                </button>
+            </div>
+            
+            <div class="messages-container hidden" id="messagesContainer">
+                <div class="message-card">
+                    <h3><i class="fas fa-heart"></i> Para o seu dia</h3>
+                    <p id="secretMessage1">Mensagem especial carregando...</p>
+                    <span class="message-date">Hoje</span>
+                </div>
+                <div class="message-card">
+                    <h3><i class="fas fa-star"></i> O que amo em você</h3>
+                    <p id="secretMessage2">Mensagem especial carregando...</p>
+                    <span class="message-date">Sempre</span>
+                </div>
+                <div class="message-card">
+                    <h3><i class="fas fa-moon"></i> Meus Sonhos</h3>
+                    <p id="secretMessage3">Mensagem especial carregando...</p>
+                    <span class="message-date">Para sempre</span>
+                </div>
+                <div class="add-message">
+                    <h3><i class="fas fa-plus"></i> Nova Mensagem</h3>
+                    <textarea id="newMessage" placeholder="Escreva uma nova mensagem para ela..."></textarea>
+                    <button id="saveMessage" class="save-btn">Salvar Mensagem</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Árvore dos Desejos -->
+        <section id="future" class="future-section">
+            <div class="section-header">
+                <h2><i class="fas fa-tree"></i> Nossa Árvore dos Desejos</h2>
+                <p>Sonhos que queremos realizar juntos</p>
+            </div>
+            
+            <div class="wish-tree">
+                <div class="tree-trunk"></div>
+                <div class="leaves-container">
+                    <!-- Folhas serão adicionadas via JavaScript -->
+                </div>
+            </div>
+            
+            <div class="add-wish">
+                <input type="text" id="newWish" placeholder="Adicione um novo sonho...">
+                <button id="addWishBtn" class="wish-btn">
+                    <i class="fas fa-plus"></i> Plantar Sonho
+                </button>
+            </div>
+            
+            <div class="wishes-list">
+                <!-- Lista de desejos será carregada via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Quiz do Casal -->
+        <section id="quiz" class="quiz-section">
+            <div class="section-header">
+                <h2><i class="fas fa-gamepad"></i> Quiz do Nosso Amor</h2>
+                <p>Vamos ver o quanto sabemos um do outro?</p>
+            </div>
+            
+            <div class="quiz-container" id="quizContainer">
+                <!-- Quiz será carregado via JavaScript -->
+            </div>
+            
+            <button id="startQuiz" class="quiz-btn">Começar Quiz</button>
+            <div class="quiz-result hidden" id="quizResult">
+                <h3>Seu Resultado: <span id="quizScore">0</span>/4</h3>
+                <p id="quizMessage">Mensagem personalizada</p>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-heart">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <p>Feito com ❤️ especialmente para você</p>
+                <p class="footer-date" id="currentDate">Carregando data...</p>
+                <button id="surpriseBtn" class="surprise-btn">
+                    <i class="fas fa-gift"></i> Última Surpresa
+                </button>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Modal de Surpresa -->
+    <div class="surprise-modal hidden" id="surpriseModal">
+        <div class="modal-content">
+            <button class="close-surprise">&times;</button>
+            <h2 id="surpriseTitle">Uma Surpresa Para Você!</h2>
+            <div class="surprise-body" id="surpriseBody">
+                <!-- Conteúdo da surpresa será carregado dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT COMPLETO (CONFIG + JS) -->
+    <script>
+    // ============================================
+    // CONFIG.JS - DADOS DO SITE
+    // ============================================
+    const CONFIG = {
+        coupleNames: {
+            yourName: "Eduardo",
+            girlfriendName: "Daniele"
+        },
+        
+        startDate: '2025-08-30T00:00:00-03:00',
+        
+        dailyMessages: [
+            "Te amo mais a cada dia que passa.",
+            "Você é a melhor coisa que já me aconteceu.",
+            "Meu coração bate mais forte quando estou com você.",
+            "Cada momento ao seu lado é especial.",
+            "Você trouxe razão para a minha vida.",
+            "Obrigado por existir e fazer parte da minha vida.",
+            "Você é a luz que aparece no fim da escuridão.",
+            "Você é a mulher mais incrível desse mundo.",
+            "Sua felicidade é o que me motiva a ser melhor."
+        ],
+        
+        photos: [
+            {
+                src: "fotos/euelaantespedido.jpg",
+                title: "Foto Algumas Horas Antes De Eu Te Pedir Em Namoro",
+                date: "30/09/2025",
+                description: "O dia em que o nosso namoro começou...",
+                category: "first"
+            },
+            {
+                src: "fotos/euelaaeroporto.jpg",
+                title: "Primeira Viagem Juntos De Avião",
+                date: "14/12/2025",
+                description: "Tomando chá de aeroporto kkk",
+                category: "special"
+            },
+            {
+                src: "fotos/euelafloripa.jpg",
+                title: "Indo Para O Navio Pirata De Canasvieiras",
+                date: "15/12/2025",
+                description: "Aproveitando a vida",
+                category: "special"
+            },
+            {
+                src: "fotos/euelafinalcorin.jpg",
+                title: "Grande Final Do Coringão",
+                date: "21/12/2025",
+                description: "Corinthians campeão!!!",
+                category: "recent"
+            }
+        ],
+        
+        timelineEvents: [
+            {
+                date: "10/07/2025",
+                title: "Nosso Primeiro Encontro",
+                description: "O dia em que eu te conheci pessoalmente.",
+                icon: "fas fa-heart"
+            },
+            {
+                date: "03/07/2025",
+                title: "O dia em que começamos a conversar",
+                description: "O dia em que eu conheci a mulher da minha vida!.",
+                icon: "fas fa-gift"
+            },
+            {
+                date: "14/12/2025",
+                title: "Primeira Viagem Juntos De Avião",
+                description: "Descobrindo novos lugares e criando memórias inesquecíveis.",
+                icon: "fas fa-plane"
+            },
+            {
+                date: "30/09/2025",
+                title: "Primeiro Mês de Namoro",
+                description: "Completamos nosso primeiro mês de muitas alegrias e aprendizados.",
+                icon: "fas fa-calendar-alt"
+            },
+            {
+                date: "Hoje",
+                title: "Nosso Presente",
+                description: "Vivendo cada dia com mais amor e cumplicidade.",
+                icon: "fas fa-star"
+            }
+        ],
+        
+        specialPlaces: {
+            firstMeet: {
+                title: "Onde nos conhecemos",
+                description: "Quem diria que a gente iria se conhecer por uma rede social né? Ainda bem que sua irmã fez você criar uma conta naquele app lá kkkk.",
+                icon: "fas fa-heart"
+            },
+            firstDate: {
+                title: "Primeiro Encontro",
+                description: "Nosso primeiro encontro foi num lugar que não é de primeiro encontro mas é um lugar legal(até porquê é um lugar onde a gente vai pra transar né? kk) mas independente disso, a gente vivenciou um momento muito bom e inesquecível. Desde então, não desgrudamos mais S2.",
+                icon: "fas fa-star"
+            },
+            favoritePlace: {
+                title: "Nosso Lugar Favorito",
+                description: "Não temos um lugar favorito né? ou temos? kkk. Eu acho que para mim, o meu lugar favorito é quando estou com você.",
+                icon: "fas fa-home"
+            },
+            dreamTravel: {
+                title: "Sonho de Viagem",
+                description: "Não tenho um lugar em específico, mas eu quero muito conhecer lugares novos com você. Então meu sonho de viagem é conhecer o mundo com você.",
+                icon: "fas fa-plane"
+            }
+        },
+        
+        secretMessages: [
+            "Você ilumina meus dias com seu sorriso. Cada momento ao seu lado é um presente que guardo no coração.",
+            "Amo a forma como você me elogia, sua risada contagiosa e como me faz sentir especial.",
+            "Meu maior sonho é construir uma vida ao seu lado, cheia de amor, aventuras e momentos inesquecíveis."
+        ],
+        
+        quizQuestions: [
+            {
+                question: "Qual é a minha comida favorita?",
+                options: ["Pizza", "Sushi", "Hambúrguer", "Lasanha"],
+                correct: 2
+            },
+            {
+                question: "Onde foi nosso primeiro encontro?",
+                options: ["Cinema", "Restaurante", "Shopping", "Motel"],
+                correct: 3
+            },
+            {
+                question: "Qual é a minha cor favorita?",
+                options: ["Preto", "Vermelho", "Verde", "Roxo"],
+                correct: 0
+            },
+            {
+                question: "Qual é a minha série favorita?",
+                options: ["Dexter", "Prison Break", "Peaky Blinders", "Supernatural"],
+                correct: 3
+            }
+        ],
+        
+        quizResults: {
+            perfect: "Incrível! Você me conhece perfeitamente! ❤️",
+            good: "Muito bom! Você realmente presta atenção em mim! 😊",
+            average: "Bom! Mas ainda temos muito para descobrir um do outro! 💕",
+            low: "Vamos conversar mais! Quero que você me conheça melhor! 💖"
+        },
+        
+        surprises: [
+            {
+                title: "Poema do Coração",
+                content: "Rosas são vermelhas,\nVioletas são azuis,\nCada dia ao seu lado,\nÉ mais especial, eu lhe afirmo é verdade,\nMeu amor por você não tem igualdade."
+            },
+            {
+                title: "O que eu faria por você?",
+                content: "Eu ficaria 40 anos no inferno e venderia minha alma só pra te salvar."
+            },
+            
+            {
+                title: "Promessa Eterna",
+                content: "Prometo estar ao seu lado nos momentos felizes e nos difíceis, te apoiar em todos os seus sonhos e te amar mais a cada dia que passa."
+            }
+        ],
+        
+        music: {
+            enabled: true
+        },
+        
+        password: "dengo",
+        
+        colors: {
+            primary: "#ff6b8b",
+            secondary: "#ff8e9e",
+            accent: "#ffd166",
+            dark: "#6a0572",
+            light: "#fff0f3"
+        }
+    };
+    
+    console.log("✅ CONFIG.JS carregado com sucesso!");
+
+    // ============================================
+    // SCRIPT.JS - FUNCIONALIDADES
+    // ============================================
+    const YOUTUBE_LINK = "https://www.youtube.com/watch?v=dfwZ8dbxnjU";
+
+    console.log("🎵 Link da música configurado:", YOUTUBE_LINK);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('💖 Site do Nosso Amor carregado!');
+        console.log('📊 CONFIG disponível:', CONFIG ? 'SIM' : 'NÃO');
+        
+        if (CONFIG) {
+            console.log('👫 Nome:', CONFIG.coupleNames.girlfriendName);
+            console.log('📅 Data início:', CONFIG.startDate);
+            console.log('🖼️ Fotos:', CONFIG.photos.length);
+        }
+        
+        // Inicializar funcionalidades
+        try {
+            initNavigation();
+            console.log('✅ Navegação OK');
+            
+            initDailyMessage();
+            console.log('✅ Mensagem diária OK');
+            
+            updateCurrentDate();
+            console.log('✅ Data atual OK');
+            
+            displayStartDate();
+            console.log('✅ Data início OK');
+            
+            initLoveCounter();
+            console.log('✅ Contador OK');
+            
+            initGallery();
+            console.log('✅ Galeria OK');
+            
+            initTimeline();
+            console.log('✅ Linha do tempo OK');
+            
+            initMessages();
+            console.log('✅ Mensagens OK');
+            
+            initWishTree();
+            console.log('✅ Árvore desejos OK');
+            
+            initQuiz();
+            console.log('✅ Quiz OK');
+            
+            initSurprises();
+            console.log('✅ Surpresas OK');
+            
+            initMusicPlayer();
+            console.log('✅ Música OK');
+            
+            console.log('🎉 TODAS FUNCIONALIDADES INICIADAS!');
+        } catch (error) {
+            console.error('❌ Erro ao inicializar:', error);
+            
+            // Mostra mensagem amigável
+            const msgEl = document.getElementById('dailyMessage');
+            if (msgEl) {
+                msgEl.textContent = "Te amo mais do que palavras podem expressar! ❤️";
+                msgEl.style.color = "#ff6b8b";
+            }
+        }
+    });
+
+    // ===== FUNÇÕES BÁSICAS =====
+    function initNavigation() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+    }
+
+    function initDailyMessage() {
+        const el = document.getElementById('dailyMessage');
+        if (el && CONFIG.dailyMessages && CONFIG.dailyMessages.length > 0) {
+            const randomMsg = CONFIG.dailyMessages[Math.floor(Math.random() * CONFIG.dailyMessages.length)];
+            el.textContent = randomMsg;
+        }
+        
+        const nameEl = document.getElementById('girlfriendName');
+        if (nameEl && CONFIG.coupleNames) {
+            nameEl.textContent = CONFIG.coupleNames.girlfriendName;
+        }
+    }
+
+    function updateCurrentDate() {
+        const el = document.getElementById('currentDate');
+        if (el) {
+            const now = new Date();
+            el.textContent = now.toLocaleDateString('pt-BR', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+    }
+
+    function displayStartDate() {
+        const el = document.getElementById('startDate');
+        if (el && CONFIG.startDate) {
+            const date = new Date(CONFIG.startDate);
+            el.textContent = date.toLocaleDateString('pt-BR', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            });
+        }
+    }
+
+    // ===== CONTADOR CORRIGIDO (PEDIDO À NOITE DO DIA 30) =====
+    function initLoveCounter() {
+        console.log('⏰ Inicializando contador com data do pedido corrigida...');
+        
+        // ===== DATA EXATA DO PEDIDO =====
+        // 30 de Agosto de 2025, À NOITE (ajuste a hora abaixo conforme foi seu pedido)
+        const horaPedido = 21; // ⚠️ ALTERE AQUI: Que horas foi aproximadamente? 20, 21, 22, etc.
+        const minutoPedido = 0; // Minutos (se lembrar)
+        
+        const dataPedido = new Date(2025, 7, 30, horaPedido, minutoPedido, 0); // Agosto = mês 7
+        
+        console.log('💍 Data/hora do pedido:', dataPedido.toLocaleString('pt-BR'));
+        console.log('📅 Mostrando: 4 meses e 10 dias (desde aquela noite especial)');
+        
+        // ===== FUNÇÃO DE ATUALIZAÇÃO =====
+        function updateCounter() {
+            const agora = new Date();
+            
+            // ===== 1. DIFERENÇA DE TEMPO REAL =====
+            const diffMs = agora - dataPedido;
+            const segundosTotal = Math.floor(diffMs / 1000);
+            const minutosTotal = Math.floor(segundosTotal / 60);
+            const horasTotal = Math.floor(minutosTotal / 60);
+            const diasTotal = Math.floor(horasTotal / 24);
+            
+            // ===== 2. CONTADOR PRINCIPAL (FIXO EM 4 MESES E 10 DIAS) =====
+            // Mostra sempre 4 meses e 10 dias (como você quer)
+            document.getElementById('years').textContent = '0';
+            document.getElementById('months').textContent = '4';
+            document.getElementById('days').textContent = '10';
+            
+            // Horas, minutos e segundos ATUAIS (em tempo real)
+            document.getElementById('hours').textContent = agora.getHours().toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = agora.getMinutes().toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = agora.getSeconds().toString().padStart(2, '0');
+            
+            // ===== 3. CÁLCULO DAS CONQUISTAS (COM DIAS REAIS) =====
+            // Usa diasTotal REAL para cálculos precisos das conquistas
+            if (!isNaN(diasTotal) && diasTotal > 0) {
+                // DEBUG (mostra ocasionalmente no console)
+                if (Math.random() < 0.02) {
+                    console.log('📊 Dias reais desde o pedido:', diasTotal);
+                }
+                
+                // ---- PARA 100 DIAS ----
+                let next100, progress100Percent;
+                if (diasTotal >= 100) {
+                    // Já passou do primeiro marco de 100 dias
+                    next100 = 100 - (diasTotal % 100);
+                    const diasNoCicloAtual = diasTotal % 100;
+                    progress100Percent = (diasNoCicloAtual / 100) * 100;
+                } else {
+                    // Ainda não chegou aos 100 dias
+                    next100 = 100 - diasTotal;
+                    progress100Percent = (diasTotal / 100) * 100;
+                }
+                
+                // ---- PARA 1 ANO ----
+                let nextYear, progressYearPercent;
+                if (diasTotal >= 365) {
+                    // Já passou do primeiro ano
+                    nextYear = 365 - (diasTotal % 365);
+                    const diasNoAnoAtual = diasTotal % 365;
+                    progressYearPercent = (diasNoAnoAtual / 365) * 100;
+                } else {
+                    // Ainda não chegou a 1 ano
+                    nextYear = 365 - diasTotal;
+                    progressYearPercent = (diasTotal / 365) * 100;
+                }
+                
+                // ===== 4. ATUALIZAR CONQUISTAS =====
+                // Números
+                document.getElementById('next100').textContent = next100;
+                document.getElementById('nextYear').textContent = nextYear;
+                
+                // Barras de progresso (com animação suave)
+                const barra100 = document.getElementById('progress100');
+                const barraAno = document.getElementById('progressYear');
+                
+                if (barra100) {
+                    barra100.style.width = Math.min(100, progress100Percent) + '%';
+                    barra100.style.transition = 'width 0.8s ease-in-out';
+                }
+                
+                if (barraAno) {
+                    barraAno.style.width = Math.min(100, progressYearPercent) + '%';
+                    barraAno.style.transition = 'width 0.8s ease-in-out';
+                }
+                
+                // Texto explicativo (se você tem os elementos com classe .milestone-desc)
+                const desc100 = document.querySelector('.milestone:nth-child(1) .milestone-desc');
+                const descAno = document.querySelector('.milestone:nth-child(2) .milestone-desc');
+                
+                if (desc100) {
+                    if (diasTotal >= 100) {
+                        const ciclos = Math.floor(diasTotal / 100);
+                        desc100.innerHTML = `Já completamos <span class="highlight-number">${ciclos}</span> ciclos de 100 dias! Faltam <span class="highlight-number">${next100}</span> dias para o próximo.`;
+                    } else {
+                        desc100.innerHTML = `Faltam apenas <span class="highlight-number">${next100}</span> dias para nosso primeiro marco de 100 dias juntos!`;
+                    }
+                }
+                
+                if (descAno) {
+                    if (diasTotal >= 365) {
+                        const anos = Math.floor(diasTotal / 365);
+                        descAno.innerHTML = `Já celebramos <span class="highlight-number">${anos}</span> an${anos > 1 ? 'os' : 'o'} juntos! Faltam <span class="highlight-number">${nextYear}</span> dias para o próximo.`;
+                    } else {
+                        descAno.innerHTML = `Faltam <span class="highlight-number">${nextYear}</span> dias para nosso primeiro aniversário de namoro!`;
+                    }
+                }
+                
+                // Porcentagens (se você tem os elementos)
+                const percent100 = document.getElementById('percent100');
+                const percentYear = document.getElementById('percentYear');
+                
+                if (percent100) percent100.textContent = Math.round(progress100Percent) + '%';
+                if (percentYear) percentYear.textContent = Math.round(progressYearPercent) + '%';
+            }
+        }
+        
+        // ===== 5. INICIAR =====
+        // Executar imediatamente
+        updateCounter();
+        
+        // Atualizar a cada segundo (para os segundos ficarem em tempo real)
+        setInterval(updateCounter, 1000);
+        
+        console.log('✅ Contador corrigido iniciado! Mostrando 4 meses e 10 dias desde aquela noite especial ❤️');
+    }
+
+    // ===== GALERIA =====
+    function initGallery() {
+        const grid = document.getElementById('photoGrid');
+        if (!grid) return;
+        
+        // Limpa o grid
+        grid.innerHTML = '';
+        
+        // Se não tiver fotos, mostra mensagem
+        if (!CONFIG.photos || CONFIG.photos.length === 0) {
+            grid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                    <i class="fas fa-camera" style="font-size: 3rem; color: #ff6b8b; margin-bottom: 1rem;"></i>
+                    <p style="color: #666;">Nossas fotos em breve! ❤️</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Adiciona as fotos
+        CONFIG.photos.forEach((photo, index) => {
+            const photoItem = document.createElement('div');
+            photoItem.className = 'photo-item';
+            photoItem.dataset.category = photo.category || 'all';
+            photoItem.innerHTML = `
+                <img src="${photo.src}" alt="${photo.title}" loading="lazy">
+                <div class="photo-overlay">
+                    <h4>${photo.title}</h4>
+                    <small>${photo.date}</small>
+                </div>
+            `;
+            
+            photoItem.addEventListener('click', () => {
+                const modal = document.getElementById('photoModal');
+                const modalImage = document.getElementById('modalImage');
+                const photoTitle = document.getElementById('photoTitle');
+                const photoDate = document.getElementById('photoDate');
+                const photoDescription = document.getElementById('photoDescription');
+                
+                if (modal && modalImage) {
+                    modalImage.src = photo.src;
+                    if (photoTitle) photoTitle.textContent = photo.title;
+                    if (photoDate) photoDate.textContent = photo.date;
+                    if (photoDescription) photoDescription.textContent = photo.description || '';
+                    modal.classList.add('active');
+                }
+            });
+            
+            grid.appendChild(photoItem);
+        });
+        
+        // Filtros
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                document.querySelectorAll('.photo-item').forEach(item => {
+                    item.style.display = (filter === 'all' || item.dataset.category === filter) 
+                        ? 'block' : 'none';
+                });
+            });
+        });
+        
+        // Fechar modal
+        const closeBtn = document.querySelector('.close-modal');
+        const modal = document.getElementById('photoModal');
+        if (closeBtn && modal) {
+            closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        }
+    }
+
+    // ===== LINHA DO TEMPO =====
+    function initTimeline() {
+        const container = document.querySelector('.timeline-container');
+        if (!container) return;
+        
+        // Se não tiver eventos, mostra mensagem
+        if (!CONFIG.timelineEvents || CONFIG.timelineEvents.length === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fas fa-history" style="font-size: 3rem; color: #ff6b8b; margin-bottom: 1rem;"></i>
+                    <p style="color: #666;">Nossa história em breve! ❤️</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Adiciona eventos
+        CONFIG.timelineEvents.forEach((event, index) => {
+            const eventEl = document.createElement('div');
+            eventEl.className = `timeline-event ${index % 2 === 0 ? 'left' : 'right'}`;
+            eventEl.innerHTML = `
+                <div class="timeline-content">
+                    <div class="event-date">
+                        <i class="${event.icon || 'fas fa-heart'}"></i>
+                        ${event.date}
+                    </div>
+                    <h3>${event.title}</h3>
+                    <p>${event.description}</p>
+                </div>
+            `;
+            container.appendChild(eventEl);
+        });
+    }
+
+    // ===== MAPA =====
+    function initMap() {
+        if (!CONFIG.specialPlaces) return;
+        
+        // Carregar descrições
+        Object.keys(CONFIG.specialPlaces).forEach(key => {
+            const el = document.getElementById(key + 'Desc');
+            if (el && CONFIG.specialPlaces[key]) {
+                el.textContent = CONFIG.specialPlaces[key].description;
+            }
+        });
+        
+        // Pontos do mapa interativos
+        document.querySelectorAll('.map-point').forEach(point => {
+            point.addEventListener('click', function() {
+                const place = this.dataset.place;
+                const card = document.querySelector(`.place-card[data-place="${place}"]`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.style.animation = 'pulse 0.5s';
+                    setTimeout(() => {
+                        card.style.animation = '';
+                    }, 500);
+                }
+            });
+        });
+    }
+
+    // ===== MENSAGENS SECRETAS =====
+    function initMessages() {
+        const passwordInput = document.getElementById('messagePassword');
+        const unlockBtn = document.getElementById('unlockMessages');
+        const messagesContainer = document.getElementById('messagesContainer');
+        
+        if (!passwordInput || !unlockBtn) return;
+        
+        // Carregar mensagens
+        [1, 2, 3].forEach(i => {
+            const el = document.getElementById('secretMessage' + i);
+            if (el && CONFIG.secretMessages && CONFIG.secretMessages[i-1]) {
+                el.textContent = CONFIG.secretMessages[i-1];
+            }
+        });
+        
+        // Desbloquear
+        unlockBtn.addEventListener('click', function() {
+            if (passwordInput.value === CONFIG.password) {
+                messagesContainer.classList.remove('hidden');
+                passwordInput.value = '';
+                passwordInput.style.borderColor = '#4CAF50';
+                
+                // Animação de celebração
+                messagesContainer.style.opacity = '0';
+                messagesContainer.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    messagesContainer.style.transition = 'all 0.5s ease';
+                    messagesContainer.style.opacity = '1';
+                    messagesContainer.style.transform = 'translateY(0)';
+                }, 100);
+            } else {
+                passwordInput.style.borderColor = '#ff6b6b';
+                passwordInput.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+                
+                // Limpa após 2 segundos
+                setTimeout(() => {
+                    passwordInput.value = '';
+                    passwordInput.style.borderColor = '';
+                }, 2000);
+            }
+        });
+        
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') unlockBtn.click();
+        });
+    }
+
+    // ===== ÁRVORE DE DESEJOS =====
+    
+    // ===== ÁRVORE DOS DESEJOS (VERSÃO ORIGINAL QUE VOCÊ GOSTA) =====
+    function initWishTree() {
+        const leavesContainer = document.querySelector('.leaves-container');
+        const wishesList = document.querySelector('.wishes-list');
+        const addWishBtn = document.getElementById('addWishBtn');
+        const newWishInput = document.getElementById('newWish');
+        
+        // Carregar desejos do localStorage
+        let wishes = JSON.parse(localStorage.getItem('ourWishes') || '[]');
+        
+        function updateWishTree() {
+            // Limpar
+            leavesContainer.innerHTML = '';
+            wishesList.innerHTML = '';
+            
+            // Adicionar folhas na árvore
+            wishes.forEach((wish, index) => {
+                // Folha na árvore
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.textContent = '💭';
+                leaf.title = wish.text;
+                
+                // Posição aleatória
+                const x = 10 + Math.random() * 80;
+                const y = 10 + Math.random() * 80;
+                leaf.style.left = `${x}%`;
+                leaf.style.top = `${y}%`;
+                leaf.style.animationDelay = `${index * 0.5}s`;
+                
+                leaf.addEventListener('click', () => {
+                    alert(`💖 Nosso desejo:\n\n"${wish.text}"`);
+                });
+                
+                leavesContainer.appendChild(leaf);
+                
+                // Item na lista
+                const wishItem = document.createElement('div');
+                wishItem.className = 'wish-item';
+                wishItem.innerHTML = `
+                    <span class="wish-text">${wish.text}</span>
+                    <button class="delete-wish" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                wishesList.appendChild(wishItem);
+            });
+            
+            // Adicionar eventos de deletar
+            document.querySelectorAll('.delete-wish').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    if (confirm('Remover este desejo?')) {
+                        wishes.splice(index, 1);
+                        localStorage.setItem('ourWishes', JSON.stringify(wishes));
+                        updateWishTree();
+                    }
+                });
+            });
+        }
+        
+        // Adicionar novo desejo
+        addWishBtn.addEventListener('click', function() {
+            const wishText = newWishInput.value.trim();
+            
+            if (wishText) {
+                wishes.push({
+                    text: wishText,
+                    date: new Date().toLocaleDateString()
+                });
+                
+                localStorage.setItem('ourWishes', JSON.stringify(wishes));
+                newWishInput.value = '';
+                updateWishTree();
+            }
+        });
+        
+        // Permitir Enter para adicionar
+        newWishInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addWishBtn.click();
+            }
+        });
+        
+        // Inicializar árvore
+        updateWishTree();
+    }
+
+    // ===== QUIZ =====
+    function initQuiz() {
+        const startBtn = document.getElementById('startQuiz');
+        if (!startBtn || !CONFIG.quizQuestions) return;
+        
+        startBtn.addEventListener('click', function() {
+            const container = document.getElementById('quizContainer');
+            const result = document.getElementById('quizResult');
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            if (result) result.classList.add('hidden');
+            
+            let answers = [];
+            let currentQuestion = 0;
+            
+            function showQuestion(index) {
+                container.innerHTML = '';
+                
+                const question = CONFIG.quizQuestions[index];
+                if (!question) return;
+                
+                const questionEl = document.createElement('div');
+                questionEl.className = 'quiz-question active';
+                questionEl.innerHTML = `
+                    <div class="question-text">${index + 1}. ${question.question}</div>
+                    <div class="quiz-options">
+                        ${question.options.map((opt, i) => `
+                            <button class="quiz-option" data-option="${i}">${opt}</button>
+                        `).join('')}
+                    </div>
+                `;
+                
+                container.appendChild(questionEl);
+                
+                // Eventos das opções
+                questionEl.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.addEventListener('click', function() {
+                        answers[index] = parseInt(this.dataset.option);
+                        
+                        // Remove seleção de outras opções
+                        questionEl.querySelectorAll('.quiz-option').forEach(o => {
+                            o.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                        
+                        // Avança após 1 segundo
+                        setTimeout(() => {
+                            if (index < CONFIG.quizQuestions.length - 1) {
+                                showQuestion(index + 1);
+                            } else {
+                                finishQuiz();
+                            }
+                        }, 1000);
+                    });
+                });
+            }
+            
+            function finishQuiz() {
+                const score = CONFIG.quizQuestions.reduce((total, q, i) => {
+                    return total + (answers[i] === q.correct ? 1 : 0);
+                }, 0);
+                
+                const scoreEl = document.getElementById('quizScore');
+                const messageEl = document.getElementById('quizMessage');
+                
+                if (scoreEl) scoreEl.textContent = score;
+                if (messageEl) {
+                    const perc = (score / CONFIG.quizQuestions.length) * 100;
+                    let msg = 'Obrigado por jogar! ❤️';
+                    
+                    if (perc >= 90) msg = CONFIG.quizResults?.perfect || msg;
+                    else if (perc >= 70) msg = CONFIG.quizResults?.good || msg;
+                    else if (perc >= 50) msg = CONFIG.quizResults?.average || msg;
+                    else msg = CONFIG.quizResults?.low || msg;
+                    
+                    messageEl.textContent = msg;
+                }
+                
+                if (result) {
+                    result.classList.remove('hidden');
+                    result.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Animação
+                    result.style.opacity = '0';
+                    result.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        result.style.transition = 'all 0.5s ease';
+                        result.style.opacity = '1';
+                        result.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+            }
+            
+            showQuestion(0);
+        });
+    }
+
+    // ===== SURPRESAS =====
+    function initSurprises() {
+        // Botão "Clique para uma surpresa"
+        const loveNoteBtn = document.getElementById('loveNoteBtn');
+        if (loveNoteBtn) {
+            loveNoteBtn.addEventListener('click', function() {
+                showSurprise('random');
+            });
+        }
+        
+        // Botão "Última Surpresa" no rodapé
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        if (surpriseBtn) {
+            surpriseBtn.addEventListener('click', function() {
+                showSurprise('special');
+            });
+        }
+        
+        // Fechar modal de surpresa
+        const closeBtn = document.querySelector('.close-surprise');
+        const surpriseModal = document.getElementById('surpriseModal');
+        if (closeBtn && surpriseModal) {
+            closeBtn.addEventListener('click', () => {
+                surpriseModal.classList.add('hidden');
+            });
+            
+            surpriseModal.addEventListener('click', (e) => {
+                if (e.target === surpriseModal) {
+                    surpriseModal.classList.add('hidden');
+                }
+            });
+        }
+        
+        function showSurprise(type) {
+            const surpriseModal = document.getElementById('surpriseModal');
+            const surpriseTitle = document.getElementById('surpriseTitle');
+            const surpriseBody = document.getElementById('surpriseBody');
+            
+            if (!surpriseModal) return;
+            
+            if (type === 'random' && CONFIG.surprises && CONFIG.surprises.length > 0) {
+                const randomIndex = Math.floor(Math.random() * CONFIG.surprises.length);
+                const surprise = CONFIG.surprises[randomIndex];
+                
+                if (surpriseTitle) surpriseTitle.textContent = surprise.title;
+                if (surpriseBody) surpriseBody.innerHTML = surprise.content.replace(/\n/g, '<br>');
+            } else {
+                // Surpresa especial do rodapé
+                if (surpriseTitle) {
+                    surpriseTitle.textContent = "Para Você, Meu Amor ❤️";
+                }
+                
+                if (surpriseBody) {
+                    const date = new Date();
+                    const options = { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    };
+                    const dateString = date.toLocaleDateString('pt-BR', options);
+                    
+                    surpriseBody.innerHTML = `
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">💝</div>
+                            <h3 style="color: #ff6b8b; margin-bottom: 1rem;">
+                                ${dateString}
+                            </h3>
+                            <p style="font-size: 1.1rem; line-height: 1.8;">
+                                Hoje, como em todos os dias, quero que saiba o quanto você é especial para mim.<br>
+                                Cada momento ao seu lado é um presente que guardo no coração.<br>
+                                Te amo mais do que palavras podem expressar!
+                            </p>
+                            <div style="margin-top: 2rem; font-family: 'Dancing Script', cursive; font-size: 1.5rem;">
+                                Com todo meu amor,<br>
+                                <strong>${CONFIG.coupleNames?.yourName || 'Seu Amor'}</strong>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            surpriseModal.classList.remove('hidden');
+            
+            // Animação
+            surpriseModal.style.opacity = '0';
+            setTimeout(() => {
+                surpriseModal.style.transition = 'opacity 0.3s ease';
+                surpriseModal.style.opacity = '1';
+            }, 10);
+        }
+    }
+
+    // ===== MÚSICA =====
+    // ===== PLAYER DE MÚSICA FUNCIONAL =====
+    function initMusicPlayer() {
+        console.log('🎵 Inicializando player de música...');
+        
+        // Elementos
+        const musicButton = document.getElementById('musicButton');
+        const musicModal = document.getElementById('musicModal');
+        const closeBtn = document.getElementById('closeMusicBtn');
+        const overlay = document.getElementById('musicOverlay');
+        const openYoutubeBtn = document.getElementById('openYoutubeBtn');
+        
+        // Se não tiver elementos, para aqui
+        if (!musicButton || !musicModal) {
+            console.warn('❌ Elementos do player não encontrados');
+            return;
+        }
+        
+        // Se não tiver YOUTUBE_LINK configurado, usa um padrão mas NÃO ESCONDE
+        if (!window.YOUTUBE_LINK) {
+            console.warn('⚠️ YOUTUBE_LINK não configurado, usando padrão');
+            window.YOUTUBE_LINK = "https://www.youtube.com/watch?v=dfwZ8dbxnjU";
+        }
+        
+        console.log('✅ Player configurado! Link:', YOUTUBE_LINK);
+        
+        // Função para abrir YouTube
+        function openYouTube() {
+            console.log('🔗 Abrindo YouTube...');
+            window.open(YOUTUBE_LINK, '_blank', 'noopener,noreferrer');
+        }
+        
+        // Abrir/fechar modal
+        function openModal() {
+            console.log('🎵 Abrindo player...');
+            musicModal.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+        }
+        
+        function closeModal() {
+            console.log('🎵 Fechando player...');
+            musicModal.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+        }
+        
+        // Event listeners
+        musicButton.addEventListener('click', openModal);
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        
+        if (overlay) {
+            overlay.addEventListener('click', closeModal);
+        }
+        
+        if (openYoutubeBtn) {
+            openYoutubeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openYouTube();
+            });
+        }
+        
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (musicModal.classList.contains('active')) {
+                    closeModal();
+                }
+            }
+        });
+        
+        console.log('✅ Player de música pronto para usar!');
+    }
+
+    // Adiciona animação shake para mensagens de erro
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    console.log("✅ SCRIPT.JS carregado com sucesso!");
+    </script>
+</body>
+</html>
