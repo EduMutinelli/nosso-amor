@@ -8,8 +8,10 @@
     <!-- Fontes e ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
 
     <!-- PWA Config -->
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff6b8b">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2269,134 +2271,186 @@
         }
     }
 
-    // ===== CONTADOR CORRIGIDO (PEDIDO À NOITE DO DIA 30) =====
+    // ===== CONTADOR DE TEMPO COMPATÍVEL (funciona com classes E IDs) =====
     function initLoveCounter() {
-        console.log('⏰ Inicializando contador com data do pedido corrigida...');
+        console.log('⏰ Inicializando contador compatível...');
         
-        // ===== DATA EXATA DO PEDIDO =====
-        // 30 de Agosto de 2025, À NOITE (ajuste a hora abaixo conforme foi seu pedido)
-        const horaPedido = 21; // ⚠️ ALTERE AQUI: Que horas foi aproximadamente? 20, 21, 22, etc.
-        const minutoPedido = 0; // Minutos (se lembrar)
+        // ===== DATA DO PEDIDO (30/08/2025 à noite) =====
+        const horaPedido = 21; // ⚠️ AJUSTE A HORA AQUI se necessário
+        const dataPedido = new Date(2025, 7, 30, horaPedido, 0, 0);
         
-        const dataPedido = new Date(2025, 7, 30, horaPedido, minutoPedido, 0); // Agosto = mês 7
+        console.log('💍 Data do pedido:', dataPedido.toLocaleString('pt-BR'));
         
-        console.log('💍 Data/hora do pedido:', dataPedido.toLocaleString('pt-BR'));
-        console.log('📅 Mostrando: 4 meses e 10 dias (desde aquela noite especial)');
-        
-        // ===== FUNÇÃO DE ATUALIZAÇÃO =====
+        // ===== FUNÇÃO PRINCIPAL - COMPATÍVEL =====
         function updateCounter() {
             const agora = new Date();
             
-            // ===== 1. DIFERENÇA DE TEMPO REAL =====
+            // ===== 1. DIFERENÇA DE TEMPO =====
             const diffMs = agora - dataPedido;
-            const segundosTotal = Math.floor(diffMs / 1000);
-            const minutosTotal = Math.floor(segundosTotal / 60);
-            const horasTotal = Math.floor(minutosTotal / 60);
-            const diasTotal = Math.floor(horasTotal / 24);
+            const diasTotal = Math.floor(diffMs / (1000 * 60 * 60 * 24));
             
-            // ===== 2. CONTADOR PRINCIPAL (FIXO EM 4 MESES E 10 DIAS) =====
-            // Mostra sempre 4 meses e 10 dias (como você quer)
-            document.getElementById('years').textContent = '0';
-            document.getElementById('months').textContent = '4';
-            document.getElementById('days').textContent = '10';
-            
-            // Horas, minutos e segundos ATUAIS (em tempo real)
-            document.getElementById('hours').textContent = agora.getHours().toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = agora.getMinutes().toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = agora.getSeconds().toString().padStart(2, '0');
-            
-            // ===== 3. CÁLCULO DAS CONQUISTAS (COM DIAS REAIS) =====
-            // Usa diasTotal REAL para cálculos precisos das conquistas
-            if (!isNaN(diasTotal) && diasTotal > 0) {
-                // DEBUG (mostra ocasionalmente no console)
-                if (Math.random() < 0.02) {
-                    console.log('📊 Dias reais desde o pedido:', diasTotal);
+            // ===== 2. CONTADOR PRINCIPAL (SEMPRE FUNCIONA) =====
+            // Usa getElementById (que deve existir para estes)
+            const updateElement = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = value;
+                    return true;
                 }
-                
-                // ---- PARA 100 DIAS ----
+                return false;
+            };
+            
+            // Mostra 4 meses e 10 dias (fixo, como você quer)
+            updateElement('years', '0');
+            updateElement('months', '4');
+            updateElement('days', '10');
+            
+            // Horas, minutos, segundos atuais
+            updateElement('hours', agora.getHours().toString().padStart(2, '0'));
+            updateElement('minutes', agora.getMinutes().toString().padStart(2, '0'));
+            updateElement('seconds', agora.getSeconds().toString().padStart(2, '0'));
+            
+            // ===== 3. CONQUISTAS (FUNCIONA COM CLASSES E IDs) =====
+            if (diasTotal > 0) {
+                // ---- CÁLCULOS ----
+                // Para 100 dias
                 let next100, progress100Percent;
                 if (diasTotal >= 100) {
-                    // Já passou do primeiro marco de 100 dias
                     next100 = 100 - (diasTotal % 100);
-                    const diasNoCicloAtual = diasTotal % 100;
-                    progress100Percent = (diasNoCicloAtual / 100) * 100;
+                    progress100Percent = ((diasTotal % 100) / 100) * 100;
                 } else {
-                    // Ainda não chegou aos 100 dias
                     next100 = 100 - diasTotal;
                     progress100Percent = (diasTotal / 100) * 100;
                 }
                 
-                // ---- PARA 1 ANO ----
+                // Para 1 ano
                 let nextYear, progressYearPercent;
                 if (diasTotal >= 365) {
-                    // Já passou do primeiro ano
                     nextYear = 365 - (diasTotal % 365);
-                    const diasNoAnoAtual = diasTotal % 365;
-                    progressYearPercent = (diasNoAnoAtual / 365) * 100;
+                    progressYearPercent = ((diasTotal % 365) / 365) * 100;
                 } else {
-                    // Ainda não chegou a 1 ano
                     nextYear = 365 - diasTotal;
                     progressYearPercent = (diasTotal / 365) * 100;
                 }
                 
-                // ===== 4. ATUALIZAR CONQUISTAS =====
-                // Números
-                document.getElementById('next100').textContent = next100;
-                document.getElementById('nextYear').textContent = nextYear;
-                
-                // Barras de progresso (com animação suave)
-                const barra100 = document.getElementById('progress100');
-                const barraAno = document.getElementById('progressYear');
-                
-                if (barra100) {
-                    barra100.style.width = Math.min(100, progress100Percent) + '%';
-                    barra100.style.transition = 'width 0.8s ease-in-out';
-                }
-                
-                if (barraAno) {
-                    barraAno.style.width = Math.min(100, progressYearPercent) + '%';
-                    barraAno.style.transition = 'width 0.8s ease-in-out';
-                }
-                
-                // Texto explicativo (se você tem os elementos com classe .milestone-desc)
-                const desc100 = document.querySelector('.milestone:nth-child(1) .milestone-desc');
-                const descAno = document.querySelector('.milestone:nth-child(2) .milestone-desc');
-                
-                if (desc100) {
-                    if (diasTotal >= 100) {
-                        const ciclos = Math.floor(diasTotal / 100);
-                        desc100.innerHTML = `Já completamos <span class="highlight-number">${ciclos}</span> ciclos de 100 dias! Faltam <span class="highlight-number">${next100}</span> dias para o próximo.`;
-                    } else {
-                        desc100.innerHTML = `Faltam apenas <span class="highlight-number">${next100}</span> dias para nosso primeiro marco de 100 dias juntos!`;
+                // ---- FUNÇÃO COMPATÍVEL (procura por ID, depois por classe) ----
+                const updateConquista = (idOuClasse, valor, isBarra = false) => {
+                    // Tenta por ID primeiro
+                    let elemento = document.getElementById(idOuClasse);
+                    
+                    // Se não encontrar por ID, tenta por classe
+                    if (!elemento) {
+                        elemento = document.querySelector('.' + idOuClasse);
                     }
-                }
-                
-                if (descAno) {
-                    if (diasTotal >= 365) {
-                        const anos = Math.floor(diasTotal / 365);
-                        descAno.innerHTML = `Já celebramos <span class="highlight-number">${anos}</span> an${anos > 1 ? 'os' : 'o'} juntos! Faltam <span class="highlight-number">${nextYear}</span> dias para o próximo.`;
-                    } else {
-                        descAno.innerHTML = `Faltam <span class="highlight-number">${nextYear}</span> dias para nosso primeiro aniversário de namoro!`;
+                    
+                    // Se ainda não encontrar, tenta por seletor mais específico
+                    if (!elemento) {
+                        elemento = document.querySelector('[class*="' + idOuClasse + '"]') || 
+                                document.querySelector('[id*="' + idOuClasse + '"]');
                     }
+                    
+                    if (elemento) {
+                        if (isBarra) {
+                            elemento.style.width = Math.min(100, valor) + '%';
+                            elemento.style.transition = 'width 0.8s ease-in-out';
+                        } else {
+                            elemento.textContent = valor;
+                        }
+                        return true;
+                    }
+                    return false;
+                };
+                
+                // ---- ATUALIZAR VALORES NUMÉRICOS ----
+                const next100Atualizado = updateConquista('next100', next100);
+                const nextYearAtualizado = updateConquista('nextYear', nextYear);
+                
+                // ---- ATUALIZAR BARRAS ----
+                const barra100Atualizada = updateConquista('progress100', progress100Percent, true);
+                const barraYearAtualizada = updateConquista('progressYear', progressYearPercent, true);
+                
+                // ---- DEBUG NO CONSOLE (se não encontrar elementos) ----
+                if (!next100Atualizado || !nextYearAtualizado) {
+                    console.warn('⚠️ Elementos das conquistas não encontrados!');
+                    console.log('Procurando elementos disponíveis...');
+                    
+                    // Lista todos os elementos que podem ser os que procuramos
+                    const elementosPossiveis = document.querySelectorAll('[class*="next"], [id*="next"], [class*="progress"], [id*="progress"]');
+                    elementosPossiveis.forEach(el => {
+                        console.log(`- ${el.tagName}`, 
+                            el.id ? `id="${el.id}"` : '', 
+                            el.className ? `class="${el.className}"` : '');
+                    });
+                    
+                    // Tenta atualizar elementos comuns
+                    const todosNext100 = document.querySelectorAll('[class*="100"], [id*="100"]');
+                    const todosNextYear = document.querySelectorAll('[class*="Year"], [class*="year"], [id*="Year"], [id*="year"]');
+                    
+                    todosNext100.forEach(el => el.textContent = next100);
+                    todosNextYear.forEach(el => el.textContent = nextYear);
+                    
+                    // Barras
+                    document.querySelectorAll('[class*="progress"], .milestone-progress').forEach((el, i) => {
+                        if (i === 0) el.style.width = Math.min(100, progress100Percent) + '%';
+                        if (i === 1) el.style.width = Math.min(100, progressYearPercent) + '%';
+                    });
                 }
                 
-                // Porcentagens (se você tem os elementos)
-                const percent100 = document.getElementById('percent100');
-                const percentYear = document.getElementById('percentYear');
+                // ---- TEXTO DESCRITIVO (se você tem as descrições) ----
+                const atualizarDescricao = (seletor, texto) => {
+                    const el = document.querySelector(seletor);
+                    if (el && el.innerHTML) {
+                        // Preserva spans com highlight-number se existirem
+                        const spans = el.querySelectorAll('.highlight-number');
+                        if (spans.length > 0) {
+                            spans[0].textContent = next100;
+                            if (spans[1]) spans[1].textContent = nextYear;
+                        } else {
+                            // Ou atualiza todo o texto
+                            el.innerHTML = texto;
+                        }
+                    }
+                };
                 
-                if (percent100) percent100.textContent = Math.round(progress100Percent) + '%';
-                if (percentYear) percentYear.textContent = Math.round(progressYearPercent) + '%';
+                // Atualiza descrições se existirem
+                atualizarDescricao('.milestone:nth-child(1) .milestone-desc', 
+                    `Faltam <span class="highlight-number">${next100}</span> dias para o próximo marco!`);
+                
+                atualizarDescricao('.milestone:nth-child(2) .milestone-desc',
+                    `Faltam <span class="highlight-number">${nextYear}</span> dias para nosso aniversário!`);
+                
+                // ---- LOG PARA DEBUG (ocasional) ----
+                if (Math.random() < 0.05) {
+                    console.log('📊 Conquistas:', { 
+                        diasTotal, 
+                        next100, 
+                        nextYear, 
+                        barra100: progress100Percent.toFixed(1) + '%',
+                        barraAno: progressYearPercent.toFixed(1) + '%'
+                    });
+                }
             }
         }
         
-        // ===== 5. INICIAR =====
-        // Executar imediatamente
+        // ===== 4. INICIAR =====
         updateCounter();
-        
-        // Atualizar a cada segundo (para os segundos ficarem em tempo real)
         setInterval(updateCounter, 1000);
         
-        console.log('✅ Contador corrigido iniciado! Mostrando 4 meses e 10 dias desde aquela noite especial ❤️');
+        console.log('✅ Contador compatível iniciado!');
+        console.log('🔄 Procurando elementos por ID e classe...');
+        
+        // Verificação inicial dos elementos
+        setTimeout(() => {
+            console.log('🔍 Elementos encontrados após 1s:');
+            ['next100', 'nextYear', 'progress100', 'progressYear'].forEach(nome => {
+                const porId = document.getElementById(nome);
+                const porClasse = document.querySelector('.' + nome);
+                console.log(`${nome}:`, {
+                    porId: porId ? '✅' : '❌',
+                    porClasse: porClasse ? '✅' : '❌'
+                });
+            });
+        }, 1000);
     }
 
     // ===== GALERIA =====
