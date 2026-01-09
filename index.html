@@ -2252,12 +2252,6 @@
 
     // ===== TEMPORIZADOR REAL (corrigido) =====
     function initLoveCounter() {
-        const dataPedidoObj = new Date(2025, 7, 30, 21, 0, 0);
-        const dataFormatada = dataPedidoObj.toLocaleDateString('pt-BR', { 
-            day: 'numeric', month: 'long', year: 'numeric' 
-        });
-        document.getElementById('startDate').textContent = dataFormatada;
-
         console.log('⏰ Inicializando contador real...');
         
         // ===== DATA DO PEDIDO (30/08/2025 à noite) =====
@@ -2304,69 +2298,68 @@
             
             // ===== CONQUISTAS =====
             if (diffDias > 0) {
-                // Próximo marco de 100 dias
-                const diasPara100 = diffDias >= 100 ? 
-                    100 - (diffDias % 100) : 
-                    100 - diffDias;
+                // ---- PRÓXIMO MARCO DE 100 DIAS ----
+                let diasPara100;
+                let percent100;
                 
-                const progresso100 = diffDias >= 100 ? 
-                    (diffDias % 100) : 
-                    diffDias;
+                if (diffDias >= 100) {
+                    // Já passou de 100 dias, mostra próximo múltiplo de 100
+                    const ultimos100 = diffDias % 100;
+                    diasPara100 = 100 - ultimos100;
+                    percent100 = (ultimos100 / 100) * 100;
+                } else {
+                    // Ainda não chegou aos 100 dias
+                    diasPara100 = 100 - diffDias;
+                    percent100 = (diffDias / 100) * 100;
+                }
                 
-                const percent100 = (progresso100 / 100) * 100;
+                // ---- PRÓXIMO ANIVERSÁRIO (1 ANO = 365 DIAS) ----
+                let diasParaAno;
+                let percentAno;
                 
-                // Próximo aniversário (365 dias)
-                const diasParaAno = diffDias >= 365 ? 
-                    365 - (diffDias % 365) : 
-                    365 - diffDias;
+                if (diffDias >= 365) {
+                    // Já passou 1 ano, mostra próximo aniversário
+                    const ultimos365 = diffDias % 365;
+                    diasParaAno = 365 - ultimos365;
+                    percentAno = (ultimos365 / 365) * 100;
+                } else {
+                    // Ainda não chegou ao primeiro aniversário
+                    diasParaAno = 365 - diffDias;
+                    percentAno = (diffDias / 365) * 100;
+                }
                 
-                const progressoAno = diffDias >= 365 ? 
-                    (diffDias % 365) : 
-                    diffDias;
+                console.log('📊 Conquistas calculadas:', {
+                    diasTotal: diffDias,
+                    diasPara100: diasPara100,
+                    diasParaAno: diasParaAno,
+                    percent100: Math.floor(percent100),
+                    percentAno: Math.floor(percentAno)
+                });
                 
-                const percentAno = (progressoAno / 365) * 100;
-                
-                // Atualizar elementos das conquistas
-                const next100El = document.getElementById('next100') || 
-                                document.querySelector('.highlight-number:nth-child(1)');
-                const nextYearEl = document.getElementById('nextYear') || 
-                                document.querySelector('.highlight-number:nth-child(2)');
-                
+                // ---- ATUALIZAR HTML ----
+                // Para 100 dias
+                const next100El = document.getElementById('next100');
                 const progress100El = document.getElementById('progress100');
-                const progressYearEl = document.getElementById('progressYear');
+                const percent100El = document.getElementById('percent100');
                 
                 if (next100El) next100El.textContent = diasPara100;
-                if (nextYearEl) nextYearEl.textContent = diasParaAno;
-                
                 if (progress100El) progress100El.style.width = Math.min(100, percent100) + '%';
-                if (progressYearEl) progressYearEl.style.width = Math.min(100, percentAno) + '%';
-                
-                // Atualizar porcentagens
-                const percent100El = document.getElementById('percent100') || 
-                                    document.querySelector('.milestone-percent:nth-child(1)');
-                const percentYearEl = document.getElementById('percentYear') || 
-                                    document.querySelector('.milestone-percent:nth-child(2)');
-                
                 if (percent100El) percent100El.textContent = Math.floor(percent100) + '%';
+                
+                // Para 1 ano
+                const nextYearEl = document.getElementById('nextYear');
+                const progressYearEl = document.getElementById('progressYear');
+                const percentYearEl = document.getElementById('percentYear');
+                
+                if (nextYearEl) nextYearEl.textContent = diasParaAno;
+                if (progressYearEl) progressYearEl.style.width = Math.min(100, percentAno) + '%';
                 if (percentYearEl) percentYearEl.textContent = Math.floor(percentAno) + '%';
                 
                 // Atualizar textos descritivos
-                const milestones = document.querySelectorAll('.milestone-desc');
-                if (milestones.length >= 2) {
-                    milestones[0].innerHTML = `Faltam <span class="highlight-number">${diasPara100}</span> dias!`;
-                    milestones[1].innerHTML = `Faltam <span class="highlight-number">${diasParaAno}</span> dias para 1 ano!`;
-                }
-                
-                // Log para debug (ocasional)
-                if (Math.random() < 0.05) {
-                    console.log('📊 Tempo real:', {
-                        anos,
-                        meses,
-                        dias,
-                        totalDias: diffDias,
-                        next100: diasPara100,
-                        nextYear: diasParaAno
-                    });
+                const milestoneDescs = document.querySelectorAll('.milestone-desc');
+                if (milestoneDescs.length >= 2) {
+                    milestoneDescs[0].innerHTML = `Faltam <span class="highlight-number">${diasPara100}</span> dias para o próximo marco!`;
+                    milestoneDescs[1].innerHTML = `Faltam <span class="highlight-number">${diasParaAno}</span> dias para nosso aniversário!`;
                 }
             }
         }
@@ -2378,6 +2371,7 @@
         console.log('✅ Contador real iniciado!');
         console.log('💝 Calculando desde:', dataPedido.toLocaleDateString('pt-BR'));
     }
+    
 
     // ===== GALERIA =====
     function initGallery() {
