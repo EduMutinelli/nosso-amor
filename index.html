@@ -7,6 +7,24 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#ff6b8b">
     <title>Nosso Amor Eterno ❤️</title>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCuHtDdy7mAT8z9israqDJOri3BjhF2xF0",
+            authDomain: "nosso-amor-727dc.firebaseapp.com",
+            projectId: "nosso-amor-727dc",
+            storageBucket: "nosso-amor-727dc.firebasestorage.app",
+            messagingSenderId: "943941688241",
+            appId: "1:943941688241:web:593d30eaa8a80dd4a7bb90"
+        };
+
+        // Inicializa o Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
     
     <!-- Fontes e ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -2566,334 +2584,147 @@
     }
 
     
-    // ===== ÁRVORE DOS DESEJOS COM GITHUB =====
+    // ===== ÁRVORE DOS DESEJOS COM FIREBASE (FUNCIONAL) =====
     function initWishTree() {
+        console.log('🌳 Iniciando árvore com Firebase...');
+        
         const leavesContainer = document.querySelector('.leaves-container');
         const wishesList = document.querySelector('.wishes-list');
         const addWishBtn = document.getElementById('addWishBtn');
         const newWishInput = document.getElementById('newWish');
         
-        // URL do arquivo JSON no SEU GitHub (SUBSTITUA pelo seu usuário)
-        const GITHUB_USER = 'edumutinelli'; // 👈 MUDA AQUI
-        const REPO_NAME = 'nosso-amor'; // 👈 MUDA AQUI (geralmente "seuusuario.github.io")
-        const WISHES_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/main/wishes.json`;
+        // Firestore já está inicializado no <head>
+        const db = firebase.firestore();
+        const wishesRef = db.collection('wishes');
         
-        console.log('🌳 Iniciando árvore com GitHub...');
-        
-        // Carregar desejos do GitHub
+        // === FUNÇÃO PRINCIPAL ===
         function loadWishes() {
-            console.log('📥 Carregando de:', WISHES_URL);
+            console.log('📥 Ouvindo desejos do Firebase...');
             
-            // Adiciona timestamp para evitar cache
-            const url = WISHES_URL + '?t=' + Date.now();
-            
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error('Erro ao carregar');
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('✅ Desejos carregados:', data.length);
-                    updateWishTree(data);
+            wishesRef
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((snapshot) => {
+                    const wishes = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        wishes.push({
+                            id: doc.id,
+                            text: data.text || '',
+                            date: data.date || 'Hoje',
+                            timestamp: data.timestamp?.toDate() || new Date()
+                        });
+                    });
                     
-                    // Também salva localmente como backup
-                    localStorage.setItem('wishes_backup', JSON.stringify(data));
-                })
-                .catch(error => {
-                    console.error('❌ Erro GitHub:', error);
-                    // Fallback: tenta do localStorage
-                    const backup = localStorage.getItem('wishes_backup');
-                    if (backup) {
-                        updateWishTree(JSON.parse(backup));
-                        showMessage('📡 Usando backup local', 'warning');
-                    }
+                    console.log('✅ Recebidos:', wishes.length, 'desejos');
+                    updateWishTree(wishes);
+                    
+                }, (error) => {
+                    console.error('❌ Erro:', error);
+                    // Fallback local
+                    const backup = JSON.parse(localStorage.getItem('wishes_backup') || '[]');
+                    updateWishTree(backup);
                 });
         }
         
-        // Adicionar novo desejo
+        // === ADICIONAR DESEJO ===
         addWishBtn.addEventListener('click', async function() {
             const wishText = newWishInput.value.trim();
             
             if (!wishText) {
-                showMessage('✍️ Escreva um desejo primeiro!', 'error');
+                alert('💖 Escreva um desejo primeiro!');
                 return;
             }
             
-            // Desabilita botão durante processamento
+            // Mostra carregando
+            const originalText = addWishBtn.innerHTML;
             addWishBtn.disabled = true;
-            addWishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Plantando...';
+            addWishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             
             try {
-                // 1. Primeiro carrega a lista atual
-                const response = await fetch(WISHES_URL + '?t=' + Date.now());
-                let wishes = await response.json();
-                if (!Array.isArray(wishes)) wishes = [];
-                
-                // 2. Adiciona novo desejo
-                const newWish = {
+                // Salva no Firebase
+                await wishesRef.add({
                     text: wishText,
                     date: new Date().toLocaleDateString('pt-BR'),
-                    timestamp: Date.now(),
-                    author: getAuthorName()
-                };
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
                 
-                wishes.push(newWish);
-                
-                // 3. Aqui precisaríamos de uma API para salvar no GitHub
-                // Como não temos, vamos usar uma solução alternativa:
-                await saveViaGithubAPI(wishes);
-                
-                // 4. Feedback e limpeza
-                showMessage('✨ Desejo plantado! Ela verá em instantes.', 'success');
+                console.log('✅ Salvo no Firebase!');
+                showMessage('✨ Desejo plantado!', 'success');
                 newWishInput.value = '';
                 
-                // 5. Atualiza visualização
-                updateWishTree(wishes);
-                
-                // 6. Agenda atualização automática
-                setTimeout(loadWishes, 3000);
-                
             } catch (error) {
-                console.error('Erro:', error);
-                showMessage('⚠️ Salvo localmente. Conecte à internet para sincronizar.', 'warning');
-                
-                // Salva localmente como pendente
-                savePendingWish(wishText);
+                console.error('❌ Erro ao salvar:', error);
+                alert('⚠️ Erro. Tente novamente ou verifique a conexão.');
             } finally {
-                // Reabilita botão
+                // Restaura botão
                 addWishBtn.disabled = false;
-                addWishBtn.innerHTML = '<i class="fas fa-plus"></i> Plantar Sonho';
+                addWishBtn.innerHTML = originalText;
             }
         });
         
-        // Solução alternativa para salvar no GitHub
-        async function saveViaGithubAPI(wishes) {
-            // Método 1: Usando GitHub Pages com atualização automática
-            // Como não podemos escrever diretamente no GitHub Pages,
-            // vamos usar um serviço intermediário GRÁTIS
-            
-            const serviceUrl = 'https://api.jsonbin.io/v3/b'; // JSONBin.io (gratuito)
-            
-            try {
-                // Cria um bin público
-                const response = await fetch(serviceUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': '$2a$10$YOUR_KEY_HERE', // Público, pode expor
-                        'X-Bin-Private': 'false'
-                    },
-                    body: JSON.stringify(wishes)
-                });
-                
-                const data = await response.json();
-                console.log('✅ Salvo no JSONBin:', data);
-                
-                // Salva o ID do bin para recuperar depois
-                localStorage.setItem('jsonbin_id', data.metadata.id);
-                
-            } catch (error) {
-                console.log('Usando fallback localStorage...');
-                // Fallback: salva localmente e espera sincronização manual
-                localStorage.setItem('pending_wishes', JSON.stringify(wishes));
-                throw error;
-            }
-        }
+        // Enter para adicionar
+        newWishInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addWishBtn.click();
+        });
         
-        // Função para carregar do JSONBin
-        function loadFromJsonBin() {
-            const binId = localStorage.getItem('jsonbin_id');
-            if (!binId) return;
-            
-            fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`)
-                .then(r => r.json())
-                .then(data => {
-                    if (data.record) {
-                        updateWishTree(data.record);
-                        localStorage.setItem('wishes_backup', JSON.stringify(data.record));
-                    }
-                })
-                .catch(console.error);
-        }
-        
-        // Funções auxiliares
-        function getAuthorName() {
-            return localStorage.getItem('userName') || 
-                (confirm('Qual seu nome? (Aparecerá nos desejos)') ? 
-                    prompt('Digite seu nome:') || 'Anônimo' : 'Anônimo');
-        }
-        
-        function savePendingWish(text) {
-            const pending = JSON.parse(localStorage.getItem('pending_wishes') || '[]');
-            pending.push({
-                text: text,
-                date: new Date().toLocaleDateString('pt-BR'),
-                timestamp: Date.now(),
-                author: getAuthorName(),
-                pending: true
-            });
-            localStorage.setItem('pending_wishes', JSON.stringify(pending));
-        }
-        
-        // Função updateWishTree (mantém a sua)
+        // === ATUALIZAR VISUAL ===
         function updateWishTree(wishes) {
-            // Limpar
             leavesContainer.innerHTML = '';
             wishesList.innerHTML = '';
             
-            if (!wishes || wishes.length === 0) {
+            if (!wishes.length) {
                 wishesList.innerHTML = `
                     <div style="text-align: center; padding: 2rem; color: #666;">
-                        <i class="fas fa-seedling" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                        <p>Nenhum desejo ainda... Seja o primeiro! 💖</p>
+                        <i class="fas fa-seedling"></i>
+                        <p>Nenhum desejo ainda... Plante o primeiro! 💖</p>
                     </div>
                 `;
                 return;
             }
             
-            // Ordenar por data (mais recente primeiro)
-            wishes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-            
-            // Adicionar folhas
-            wishes.forEach((wish, index) => {
-                // Folha na árvore
+            wishes.forEach((wish, i) => {
+                // Folha
                 const leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                leaf.textContent = wish.pending ? '⏳' : '💖';
-                leaf.title = `${wish.text}\n\nPor: ${wish.author || 'Anônimo'}\nEm: ${wish.date}`;
-                
-                const x = 10 + Math.random() * 80;
-                const y = 10 + Math.random() * 80;
-                leaf.style.left = `${x}%`;
-                leaf.style.top = `${y}%`;
-                leaf.style.animationDelay = `${index * 0.5}s`;
-                
-                if (wish.pending) {
-                    leaf.style.opacity = '0.7';
-                    leaf.style.background = 'linear-gradient(135deg, #FFD166, #FFB347)';
-                }
-                
-                leaf.addEventListener('click', () => {
-                    alert(`💖 "${wish.text}"\n\n🌱 Por: ${wish.author || 'Anônimo'}\n📅 ${wish.date}${wish.pending ? '\n\n⏳ Aguardando sincronização...' : ''}`);
-                });
-                
+                leaf.textContent = '💖';
+                leaf.title = wish.text;
+                leaf.style.left = `${10 + Math.random() * 80}%`;
+                leaf.style.top = `${10 + Math.random() * 80}%`;
+                leaf.style.animationDelay = `${i * 0.3}s`;
                 leavesContainer.appendChild(leaf);
                 
-                // Item na lista
-                const wishItem = document.createElement('div');
-                wishItem.className = 'wish-item';
-                wishItem.innerHTML = `
-                    <div style="flex: 1;">
-                        <div style="color: #666; margin-bottom: 5px; ${wish.pending ? 'opacity: 0.7;' : ''}">
-                            ${wish.text}
-                            ${wish.pending ? ' <span style="color: #FFB347; font-size: 0.8em;">(pendente)</span>' : ''}
-                        </div>
-                        <div style="font-size: 0.8rem; color: #999;">
-                            <i class="fas fa-user"></i> ${wish.author || 'Anônimo'} 
-                            | <i class="fas fa-calendar"></i> ${wish.date}
-                        </div>
-                    </div>
+                // Item
+                const item = document.createElement('div');
+                item.className = 'wish-item';
+                item.innerHTML = `
+                    <div style="color: #666;">${wish.text}</div>
+                    <small style="color: #999;">${wish.date}</small>
                 `;
-                
-                wishesList.appendChild(wishItem);
+                wishesList.appendChild(item);
             });
         }
         
-        // Botão para sincronizar pendentes
-        function addSyncButton() {
-            const container = document.querySelector('.add-wish');
-            const syncBtn = document.createElement('button');
-            syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sincronizar';
-            syncBtn.style.cssText = `
-                background: #6a0572;
-                color: white;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 10px;
-                cursor: pointer;
-                margin-left: 10px;
+        // === MENSAGENS ===
+        function showMessage(text, type) {
+            const msg = document.createElement('div');
+            msg.style.cssText = `
+                position: fixed; top: 20px; right: 20px;
+                background: ${type === 'success' ? '#4CAF50' : '#ff6b6b'};
+                color: white; padding: 10px 20px;
+                border-radius: 10px; z-index: 10000;
             `;
-            syncBtn.onclick = function() {
-                syncBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sincronizando...';
-                syncBtn.disabled = true;
-                
-                loadWishes();
-                loadFromJsonBin();
-                
-                setTimeout(() => {
-                    syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sincronizado!';
-                    setTimeout(() => {
-                        syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sincronizar';
-                        syncBtn.disabled = false;
-                    }, 2000);
-                }, 1000);
-            };
-            container.appendChild(syncBtn);
+            msg.textContent = text;
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 3000);
         }
         
-        // Atualização automática a cada 30 segundos
-        function startAutoRefresh() {
-            setInterval(() => {
-                console.log('🔄 Atualização automática...');
-                loadWishes();
-                loadFromJsonBin();
-            }, 30000); // 30 segundos
-        }
-        
-        // Mensagens flutuantes
-        function showMessage(text, type = 'info') {
-            const messageEl = document.createElement('div');
-            messageEl.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'error' ? '#ff6b6b' : type === 'warning' ? '#ffd166' : '#4CAF50'};
-                color: white;
-                padding: 15px 20px;
-                border-radius: 10px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                z-index: 10000;
-                max-width: 300px;
-                animation: slideIn 0.3s ease;
-            `;
-            
-            messageEl.innerHTML = text;
-            document.body.appendChild(messageEl);
-            
-            setTimeout(() => {
-                messageEl.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => messageEl.remove(), 300);
-            }, 4000);
-        }
-        
-        // CSS para animações
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Inicializar
-        addSyncButton();
+        // === INICIAR ===
         loadWishes();
-        loadFromJsonBin();
-        startAutoRefresh();
         
-        // Pede nome na primeira vez
-        if (!localStorage.getItem('userName')) {
-            setTimeout(() => {
-                const name = prompt('🌷 Qual seu nome? (Aparecerá nos desejos que você plantar)') || 'Anônimo';
-                localStorage.setItem('userName', name);
-                showMessage(`Olá, ${name}! Seus desejos terão seu nome.`, 'success');
-            }, 1000);
-        }
+        // Atualiza a cada 30s
+        setInterval(loadWishes, 30000);
+        
+        console.log('✅ Árvore pronta!');
     }
 
     // ===== QUIZ =====
