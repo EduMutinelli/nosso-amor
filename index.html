@@ -2584,7 +2584,7 @@
     }
 
     
-    // ===== ÁRVORE DOS DESEJOS COM FIREBASE (FUNCIONAL) =====
+    // ===== ÁRVORE DOS DESEJOS COM FIREBASE (VERSÃO MELHORADA) =====
     function initWishTree() {
         console.log('🌳 Iniciando árvore com Firebase...');
         
@@ -2597,7 +2597,10 @@
         const db = firebase.firestore();
         const wishesRef = db.collection('wishes');
         
-        // === FUNÇÃO PRINCIPAL ===
+        // Variável para controlar animações
+        let currentWishes = [];
+        
+        // === FUNÇÃO PRINCIPAL - ESCUTAR MUDANÇAS ===
         function loadWishes() {
             console.log('📥 Ouvindo desejos do Firebase...');
             
@@ -2610,12 +2613,21 @@
                         wishes.push({
                             id: doc.id,
                             text: data.text || '',
-                            date: data.date || 'Hoje',
+                            date: data.date || new Date().toLocaleDateString('pt-BR'),
                             timestamp: data.timestamp?.toDate() || new Date()
                         });
                     });
                     
                     console.log('✅ Recebidos:', wishes.length, 'desejos');
+                    
+                    // Verifica se é um novo desejo (para animação)
+                    if (wishes.length > currentWishes.length) {
+                        // Novo desejo adicionado
+                        const newWish = wishes[0]; // O mais recente
+                        animateNewWish(newWish);
+                    }
+                    
+                    currentWishes = wishes;
                     updateWishTree(wishes);
                     
                 }, (error) => {
@@ -2631,14 +2643,12 @@
             const wishText = newWishInput.value.trim();
             
             if (!wishText) {
-                alert('💖 Escreva um desejo primeiro!');
+                showMessage('💖 Escreva um desejo primeiro!', 'error');
                 return;
             }
             
-            // Mostra carregando
-            const originalText = addWishBtn.innerHTML;
-            addWishBtn.disabled = true;
-            addWishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            // Animação do botão
+            addWishBtn.classList.add('pulsing');
             
             try {
                 // Salva no Firebase
@@ -2648,17 +2658,23 @@
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
-                console.log('✅ Salvo no Firebase!');
-                showMessage('✨ Desejo plantado!', 'success');
+                // Animação de confirmação
+                showMessage('✨ Desejo plantado com sucesso!', 'success');
+                
+                // Animação de folha caindo
+                createFallingLeaf(wishText);
+                
+                // Limpa campo
                 newWishInput.value = '';
                 
             } catch (error) {
                 console.error('❌ Erro ao salvar:', error);
-                alert('⚠️ Erro. Tente novamente ou verifique a conexão.');
+                showMessage('⚠️ Erro ao salvar. Tente novamente.', 'error');
             } finally {
-                // Restaura botão
-                addWishBtn.disabled = false;
-                addWishBtn.innerHTML = originalText;
+                // Remove animação do botão
+                setTimeout(() => {
+                    addWishBtn.classList.remove('pulsing');
+                }, 1000);
             }
         });
         
@@ -2675,48 +2691,330 @@
             if (!wishes.length) {
                 wishesList.innerHTML = `
                     <div style="text-align: center; padding: 2rem; color: #666;">
-                        <i class="fas fa-seedling"></i>
-                        <p>Nenhum desejo ainda... Plante o primeiro! 💖</p>
+                        <i class="fas fa-seedling" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Nenhum desejo ainda...</p>
+                        <p style="color: #ff6b8b;">Plante o primeiro sonho da nossa árvore! 💖</p>
                     </div>
                 `;
                 return;
             }
             
             wishes.forEach((wish, i) => {
-                // Folha
+                // ===== FOLHA NA ÁRVORE =====
                 const leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                leaf.textContent = '💖';
-                leaf.title = wish.text;
-                leaf.style.left = `${10 + Math.random() * 80}%`;
-                leaf.style.top = `${10 + Math.random() * 80}%`;
-                leaf.style.animationDelay = `${i * 0.3}s`;
+                leaf.dataset.wishId = wish.id;
+                leaf.innerHTML = '💖';
+                
+                // Posição aleatória mas organizada
+                const row = Math.floor(i / 5);
+                const col = i % 5;
+                const x = 15 + (col * 15) + (Math.random() * 5);
+                const y = 10 + (row * 20) + (Math.random() * 10);
+                
+                leaf.style.left = `${x}%`;
+                leaf.style.top = `${y}%`;
+                leaf.style.animationDelay = `${i * 0.2}s`;
+                leaf.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+                
+                // Tooltip com informações
+                leaf.title = `"${wish.text}"\n\n📅 ${wish.date}\n\n💖 Clique para ver detalhes`;
+                
+                // Evento de clique
+                leaf.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showWishDetail(wish);
+                });
+                
                 leavesContainer.appendChild(leaf);
                 
-                // Item
-                const item = document.createElement('div');
-                item.className = 'wish-item';
-                item.innerHTML = `
-                    <div style="color: #666;">${wish.text}</div>
-                    <small style="color: #999;">${wish.date}</small>
+                // ===== ITEM NA LISTA =====
+                const wishItem = document.createElement('div');
+                wishItem.className = 'wish-item';
+                wishItem.style.animationDelay = `${i * 0.1}s`;
+                wishItem.innerHTML = `
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="color: #666; margin-bottom: 8px; font-size: 0.95rem;">
+                            "${wish.text}"
+                        </div>
+                        <div style="font-size: 0.8rem; color: #999; display: flex; justify-content: space-between;">
+                            <span>
+                                <i class="fas fa-calendar"></i> ${wish.date}
+                            </span>
+                            <span style="cursor: pointer; color: #ff6b8b;" onclick="deleteWish('${wish.id}')">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                        </div>
+                    </div>
                 `;
-                wishesList.appendChild(item);
+                
+                wishesList.appendChild(wishItem);
             });
         }
         
-        // === MENSAGENS ===
-        function showMessage(text, type) {
-            const msg = document.createElement('div');
-            msg.style.cssText = `
-                position: fixed; top: 20px; right: 20px;
-                background: ${type === 'success' ? '#4CAF50' : '#ff6b6b'};
-                color: white; padding: 10px 20px;
-                border-radius: 10px; z-index: 10000;
+        // === FUNÇÃO PARA MOSTRAR DETALHES DO DESEJO ===
+        function showWishDetail(wish) {
+            // Cria modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s ease;
             `;
-            msg.textContent = text;
-            document.body.appendChild(msg);
-            setTimeout(() => msg.remove(), 3000);
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 20px;
+                    max-width: 500px;
+                    width: 90%;
+                    text-align: center;
+                    position: relative;
+                    animation: scaleIn 0.3s ease;
+                ">
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        position: absolute;
+                        top: 10px;
+                        right: 15px;
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        color: #ff6b8b;
+                        cursor: pointer;
+                    ">×</button>
+                    
+                    <div style="font-size: 4rem; margin-bottom: 1rem; color: #ff6b8b;">
+                        💖
+                    </div>
+                    
+                    <h3 style="color: #6a0572; margin-bottom: 1rem;">Nosso Desejo</h3>
+                    
+                    <div style="
+                        background: #fff0f3;
+                        padding: 1.5rem;
+                        border-radius: 15px;
+                        margin-bottom: 1.5rem;
+                        font-size: 1.1rem;
+                        line-height: 1.6;
+                        color: #333;
+                        text-align: left;
+                    ">
+                        "${wish.text}"
+                    </div>
+                    
+                    <div style="color: #666; margin-bottom: 1.5rem;">
+                        <i class="fas fa-calendar"></i> Plantado em: ${wish.date}
+                    </div>
+                    
+                    <button onclick="deleteWish('${wish.id}')" style="
+                        background: #ff6b6b;
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                    ">
+                        <i class="fas fa-trash"></i> Remover este desejo
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Fecha ao clicar fora
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
         }
+        
+        // === FUNÇÃO PARA DELETAR DESEJO ===
+        window.deleteWish = async function(wishId) {
+            if (confirm('Tem certeza que quer remover este desejo da nossa árvore? 🌳')) {
+                try {
+                    await wishesRef.doc(wishId).delete();
+                    showMessage('🗑️ Desejo removido!', 'success');
+                    
+                    // Animação de remoção
+                    const leaf = document.querySelector(`.leaf[data-wish-id="${wishId}"]`);
+                    if (leaf) {
+                        leaf.style.animation = 'fadeOut 0.5s ease';
+                        setTimeout(() => {
+                            if (leaf.parentNode) leaf.parentNode.removeChild(leaf);
+                        }, 500);
+                    }
+                    
+                } catch (error) {
+                    console.error('Erro ao remover:', error);
+                    showMessage('❌ Erro ao remover desejo', 'error');
+                }
+            }
+        };
+        
+        // === ANIMAÇÕES ESPECIAIS ===
+        
+        // 1. Animação para novo desejo
+        function animateNewWish(wish) {
+            // Efeito de brilho na árvore
+            leavesContainer.style.boxShadow = '0 0 30px #ff6b8b';
+            setTimeout(() => {
+                leavesContainer.style.boxShadow = 'none';
+            }, 1000);
+            
+            // Mensagem flutuante
+            showMessage(`🌱 Novo desejo plantado: "${wish.text.substring(0, 30)}..."`, 'success');
+        }
+        
+        // 2. Folha caindo quando adiciona
+        function createFallingLeaf(text) {
+            const leaf = document.createElement('div');
+            leaf.innerHTML = '💖';
+            leaf.style.cssText = `
+                position: fixed;
+                top: -50px;
+                left: ${50 + Math.random() * 20}%;
+                font-size: 2rem;
+                z-index: 9999;
+                animation: fallingLeaf 3s ease-in forwards;
+                pointer-events: none;
+            `;
+            
+            document.body.appendChild(leaf);
+            
+            // Remove após animação
+            setTimeout(() => {
+                if (leaf.parentNode) leaf.parentNode.removeChild(leaf);
+            }, 3000);
+        }
+        
+        // 3. Mensagens flutuantes
+        function showMessage(text, type = 'info') {
+            // Remove mensagem anterior
+            const oldMsg = document.querySelector('.floating-message');
+            if (oldMsg) oldMsg.remove();
+            
+            const message = document.createElement('div');
+            message.className = 'floating-message';
+            message.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#ff6b6b' : '#ffd166'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+            `;
+            
+            message.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${text}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(message);
+            
+            // Remove após 4 segundos
+            setTimeout(() => {
+                message.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (message.parentNode) message.parentNode.removeChild(message);
+                }, 300);
+            }, 4000);
+        }
+        
+        // === ADICIONA CSS PARA ANIMAÇÕES ===
+        const style = document.createElement('style');
+        style.textContent = `
+            /* Animações das folhas */
+            .leaf {
+                transition: all 0.3s ease;
+            }
+            
+            .leaf:hover {
+                transform: scale(1.2) rotate(5deg) !important;
+                z-index: 10;
+                filter: drop-shadow(0 0 5px rgba(255, 107, 139, 0.5));
+            }
+            
+            /* Botão pulsando */
+            .pulsing {
+                animation: pulse 0.5s ease infinite;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+            
+            /* Folha caindo */
+            @keyframes fallingLeaf {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            /* Mensagens */
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            @keyframes scaleIn {
+                from { transform: scale(0.9); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+            
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; transform: scale(0.8); }
+            }
+            
+            /* Wish items aparecendo */
+            .wish-item {
+                animation: slideUp 0.5s ease;
+            }
+            
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
         
         // === INICIAR ===
         loadWishes();
@@ -2724,7 +3022,7 @@
         // Atualiza a cada 30s
         setInterval(loadWishes, 30000);
         
-        console.log('✅ Árvore pronta!');
+        console.log('✅ Árvore com animações pronta!');
     }
 
     // ===== QUIZ =====
